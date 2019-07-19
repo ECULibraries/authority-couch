@@ -148,6 +148,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CacheHelper.cs" />
+    <Compile Include="Models\AsGroup.cs" />
     <Compile Include="Models\AsResource.cs" />
     <Compile Include="Models\AssignViewModel.cs" />
     <Compile Include="Models\AsSubject.cs" />
@@ -283,6 +284,8 @@
     <Content Include="Views\Guide\SubjectView.cshtml" />
     <Content Include="Views\Export\Name.cshtml" />
     <Content Include="Views\Export\Subject.cshtml" />
+    <Content Include="Views\Guide\NameCheck.cshtml" />
+    <Content Include="Views\Guide\SubjectCheck.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

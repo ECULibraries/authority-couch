@@ -5,6 +5,11 @@
 
 <h2>@ViewBag.Guide</h2>
 <hr />
+<div class="row">
+    <div class="col-12">
+        <a href="@Url.Action("NameCheck", "Guide", new { id = ViewContext.RouteData.Values["id"]})" class="btn btn-primary float-right">Check against AS data</a>
+    </div>
+</div>
 
 @if (Model.Name != null && Model.Name.Results.Docs.Count > 0)
 {
@@ -12,7 +17,6 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th></th>
                 <th>Name</th>
                 <th>Type</th>
 
@@ -21,7 +25,6 @@
         @foreach (var doc in Model.Name.Results.Docs)
         {
             <tr>
-                <td></td>
                 <td><a href="@Url.Action("Name", "Assign", new {id = doc._id})">@doc.authoritativeLabel</a></td>
                 <td>
                     @if (doc.personalNameCreator != null && doc.personalNameCreator.Contains(ViewBag.ArchivesSpaceUrl))
@@ -65,7 +68,6 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th></th>
                     <th>Subject</th>
                     <th>Type</th>
 
@@ -74,7 +76,6 @@
             @foreach (var doc in topics)
             {
                 <tr>
-                    <td></td>
                     <td>@doc.authoritativeLabel</td>
                     <td>
                         @if (doc.topic.Contains(ViewBag.ArchivesSpaceUrl))
@@ -94,7 +95,6 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th></th>
                 <th>Subject</th>
                 <th>Type</th>
 
@@ -103,7 +103,6 @@
             @foreach (var doc in geographic)
             {
                 <tr>
-                    <td></td>
                     <td>@doc.authoritativeLabel</td>
                     <td>
                         @if (doc.geographic.Contains(ViewBag.ArchivesSpaceUrl))
@@ -123,7 +122,6 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th></th>
                 <th>Subject</th>
                 <th>Type</th>
 
@@ -132,7 +130,6 @@
             @foreach (var doc in personal)
             {
                 <tr>
-                    <td></td>
                     <td>@doc.authoritativeLabel</td>
                     <td>
                         @if (doc.personalNameSubject.Contains(ViewBag.ArchivesSpaceUrl))
@@ -152,7 +149,6 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th></th>
                 <th>Subject</th>
                 <th>Type</th>
 
@@ -161,7 +157,6 @@
             @foreach (var doc in family)
             {
                 <tr>
-                    <td></td>
                     <td>@doc.authoritativeLabel</td>
                     <td>
                         @if (doc.familyNameSubject.Contains(ViewBag.ArchivesSpaceUrl))
@@ -181,7 +176,6 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th></th>
                 <th>Subject</th>
                 <th>Type</th>
 
@@ -190,7 +184,6 @@
             @foreach (var doc in corp)
             {
                 <tr>
-                    <td></td>
                     <td>@doc.authoritativeLabel</td>
                     <td>
                         @if (doc.corporateNameSubject.Contains(ViewBag.ArchivesSpaceUrl))
@@ -210,7 +203,6 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th></th>
                 <th>Subject</th>
                 <th>Type</th>
 
@@ -219,7 +211,6 @@
             @foreach (var doc in meeting)
             {
                 <tr>
-                    <td></td>
                     <td>@doc.authoritativeLabel</td>
                     <td>
                         @if (doc.meeting.Contains(ViewBag.ArchivesSpaceUrl))
@@ -238,7 +229,6 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th></th>
                 <th>Subject</th>
                 <th>Type</th>
 
@@ -247,7 +237,6 @@
             @foreach (var doc in title)
             {
                 <tr>
-                    <td></td>
                     <td>@doc.authoritativeLabel</td>
                     <td>
                         @if (doc.uniformTitle.Contains(ViewBag.ArchivesSpaceUrl))

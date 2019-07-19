@@ -1,0 +1,355 @@
+﻿@model AuthorityCouch.Models.GuideViewModel
+@{
+    ViewBag.Title = "Check";
+}
+
+<h2>@ViewBag.Guide</h2>
+<hr />
+
+@if (Model.Name != null && Model.Name.Results.Docs.Count > 0)
+{
+    <h4>Name Authorities</h4>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Type</th>
+
+        </tr>
+        </thead>
+        @foreach (var doc in Model.Name.Results.Docs)
+        {
+            <tr>
+                <td>
+                    @if (doc.personalNameCreator != null)
+                    {
+                        var match = Model.AsAgents.Find(x => x.person_name == doc.authoritativeLabel);
+                        if (match != null && match.role_id == 878 && match.agent_person_id.ToString() == doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_person/", ""))
+                        {
+                            <i class="fa fa-check-circle text-success"></i>
+                        }
+                    }
+                    else if (doc.personalNameSource != null)
+                    {
+                        var match = Model.AsAgents.Find(x => x.person_name == doc.authoritativeLabel);
+                        if (match != null && match.role_id == 879 && match.agent_person_id.ToString() == doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_person/", ""))
+                        {
+                            <i class="fa fa-check-circle text-success"></i>
+                        }
+                    }
+                    else if (doc.familyNameCreator != null)
+                    {
+                        var match = Model.AsAgents.Find(x => x.family_name == doc.authoritativeLabel);
+                        if (match != null && match.role_id == 878 && match.agent_family_id.ToString() == doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_family/", ""))
+                        {
+                            <i class="fa fa-check-circle text-success"></i>
+                        }
+                    }
+                    else if (doc.familyNameSource != null)
+                    {
+                        var match = Model.AsAgents.Find(x => x.family_name == doc.authoritativeLabel);
+                        if (match != null && match.role_id == 879 && match.agent_family_id.ToString() == doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_family/", ""))
+                        {
+                            <i class="fa fa-check-circle text-success"></i>
+                        }
+                    }
+                    else if (doc.corporateNameCreator != null)
+                    {
+                        var match = Model.AsAgents.Find(x => x.corp_name == doc.authoritativeLabel);
+                        if (match != null && match.role_id == 878 && match.agent_corporate_entity_id.ToString() == doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_corporate_entity/", ""))
+                        {
+                            <i class="fa fa-check-circle text-success"></i>
+                        }
+                    }
+                    else if (doc.corporateNameSource != null)
+                    {
+                        var match = Model.AsAgents.Find(x => x.corp_name == doc.authoritativeLabel);
+                        if (match != null && match.role_id == 879 && match.agent_corporate_entity_id.ToString() == doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_corporate_entity/", ""))
+                        {
+                            <i class="fa fa-check-circle text-success"></i>
+                        }
+                    }
+                </td>
+                <td><a href="@Url.Action("Name", "Assign", new {id = doc._id})">@doc.authoritativeLabel</a></td>
+                <td>
+                    @if (doc.personalNameCreator != null && doc.personalNameCreator.Contains(ViewBag.ArchivesSpaceUrl))
+                    {
+                        <span>personalNameCreator</span>
+                    }
+                    else if (doc.personalNameSource != null && doc.personalNameSource.Contains(ViewBag.ArchivesSpaceUrl))
+                    {
+                        <span>personalNameSource</span>
+                    }
+                    else if (doc.familyNameCreator != null && doc.familyNameCreator.Contains(ViewBag.ArchivesSpaceUrl))
+                    {
+                        <span>familyNameCreator</span>
+                    }
+                    else if (doc.familyNameSource != null && doc.familyNameSource.Contains(ViewBag.ArchivesSpaceUrl))
+                    {
+                        <span>familyNameSource</span>
+                    }
+                    else if (doc.corporateNameCreator != null && doc.corporateNameCreator.Contains(ViewBag.ArchivesSpaceUrl))
+                    {
+                        <span>corporateNameCreator</span>
+                    }
+                    else if (doc.corporateNameSource != null && doc.corporateNameSource.Contains(ViewBag.ArchivesSpaceUrl))
+                    {
+                        <span>corporateNameSource</span>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+    <br /><br />
+}
+
+@if (Model.Subject != null && Model.Subject.Results.Docs.Count > 0)
+{
+    <h4>Subject Authorities</h4>
+
+    var topics = Model.Subject.Results.Docs.FindAll(x => x.topic != null);
+    if (topics.Count > 0)
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Subject</th>
+                    <th>Type</th>
+
+                </tr>
+            </thead>
+            @foreach (var doc in topics)
+            {
+                <tr>
+                    <td>
+                        @{ var match = Model.AsSubjects.Find(x => x.subject == doc.authoritativeLabel); }
+                        @if (match != null && match.type == "topical" && match.id.ToString() == doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/subjects/", ""))
+                        {
+                        <i class="fa fa-check-circle text-success"></i>
+                        }
+                    </td>
+                    <td>@doc.authoritativeLabel</td>
+                    <td>
+                        @if (doc.topic.Contains(ViewBag.ArchivesSpaceUrl))
+                        {
+                            <span>topic</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+        <br />
+    }
+    var geographic = Model.Subject.Results.Docs.FindAll(x => x.geographic != null);
+    if (geographic.Count > 0)
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Subject</th>
+                    <th>Type</th>
+
+                </tr>
+            </thead>
+            @foreach (var doc in geographic)
+            {
+                <tr>
+                    <td>
+                        @{ var match = Model.AsSubjects.Find(x => x.subject == doc.authoritativeLabel); }
+                        @if (match != null && match.type == "geographic" && match.id.ToString() == doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/subjects/", ""))
+                        {
+                            <i class="fa fa-check-circle text-success"></i>
+                        }
+                    </td>
+                    <td>@doc.authoritativeLabel</td>
+                    <td>
+                        @if (doc.geographic.Contains(ViewBag.ArchivesSpaceUrl))
+                        {
+                            <span>geographic</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+        <br />
+    }
+    var personal = Model.Subject.Results.Docs.FindAll(x => x.personalNameSubject != null);
+    if (personal.Count > 0)
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Subject</th>
+                    <th>Type</th>
+
+                </tr>
+            </thead>
+            @foreach (var doc in personal)
+            {
+                <tr>
+                    <td>
+                        @{ var match = Model.AsSubjects.Find(x => x.subject == doc.authoritativeLabel); }
+                        @if (match != null && match.type == "personal" && match.id.ToString() == doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/subjects/", ""))
+                        {
+                            <i class="fa fa-check-circle text-success"></i>
+                        }
+                    </td>
+                    <td>@doc.authoritativeLabel</td>
+                    <td>
+                        @if (doc.personalNameSubject.Contains(ViewBag.ArchivesSpaceUrl))
+                        {
+                            <span>personalNameSubject</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+        <br />
+    }
+    var family = Model.Subject.Results.Docs.FindAll(x => x.familyNameSubject != null);
+    if (family.Count > 0)
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Subject</th>
+                    <th>Type</th>
+
+                </tr>
+            </thead>
+            @foreach (var doc in family)
+            {
+                <tr>
+                    <td>
+                        @{ var match = Model.AsSubjects.Find(x => x.subject == doc.authoritativeLabel); }
+                        @if (match != null && match.type == "family" && match.id.ToString() == doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/subjects/", ""))
+                        {
+                            <i class="fa fa-check-circle text-success"></i>
+                        }
+                    </td>
+                    <td>@doc.authoritativeLabel</td>
+                    <td>
+                        @if (doc.familyNameSubject.Contains(ViewBag.ArchivesSpaceUrl))
+                        {
+                            <span>familyNameSubject</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+        <br />
+    }
+    var corp = Model.Subject.Results.Docs.FindAll(x => x.corporateNameSubject != null);
+    if (corp.Count > 0)
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Subject</th>
+                    <th>Type</th>
+
+                </tr>
+            </thead>
+            @foreach (var doc in corp)
+            {
+                <tr>
+                    <td>
+                        @{ var match = Model.AsSubjects.Find(x => x.subject == doc.authoritativeLabel); }
+                        @if (match != null && match.type == "corporate" && match.id.ToString() == doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/subjects/", ""))
+                        {
+                            <i class="fa fa-check-circle text-success"></i>
+                        }
+                    </td>
+                    <td>@doc.authoritativeLabel</td>
+                    <td>
+                        @if (doc.corporateNameSubject.Contains(ViewBag.ArchivesSpaceUrl))
+                        {
+                            <span>corporateNameSubject</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+        <br />
+    }
+    var meeting = Model.Subject.Results.Docs.FindAll(x => x.meeting != null);
+    if (meeting.Count > 0)
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Subject</th>
+                    <th>Type</th>
+
+                </tr>
+            </thead>
+            @foreach (var doc in meeting)
+            {
+                <tr>
+                    <td>
+                        @{ var match = Model.AsSubjects.Find(x => x.subject == doc.authoritativeLabel); }
+                        @if (match != null && match.type == "meeting" && match.id.ToString() == doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/subjects/", ""))
+                        {
+                            <i class="fa fa-check-circle text-success"></i>
+                        }
+                    </td>
+                    <td>@doc.authoritativeLabel</td>
+                    <td>
+                        @if (doc.meeting.Contains(ViewBag.ArchivesSpaceUrl))
+                        {
+                            <span>meeting</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+        <br />}
+    var title = Model.Subject.Results.Docs.FindAll(x => x.uniformTitle != null);
+    if (title.Count > 0)
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Subject</th>
+                    <th>Type</th>
+
+                </tr>
+            </thead>
+            @foreach (var doc in title)
+            {
+                <tr>
+                    <td>
+                        @{ var match = Model.AsSubjects.Find(x => x.subject == doc.authoritativeLabel); }
+                        @if (match != null && match.type == "uniform_title" && match.id.ToString() == doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/subjects/", ""))
+                        {
+                            <i class="fa fa-check-circle text-success"></i>
+                        }
+                    </td>
+                    <td>@doc.authoritativeLabel</td>
+                    <td>
+                        @if (doc.uniformTitle.Contains(ViewBag.ArchivesSpaceUrl))
+                        {
+                            <span>uniformTitle</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+        <br />
+        <br />
+    }
+}
