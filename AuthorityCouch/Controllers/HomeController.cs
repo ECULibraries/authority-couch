@@ -1,12 +1,23 @@
 ﻿using System.Web.Mvc;
+using AuthorityCouch.Models.Import;
 
 namespace AuthorityCouch.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        public ActionResult Index()
+        public ActionResult Name()
         {
+            //var meeting = new Meeting();
+
+            //AsRepo.SaveAsSubjects(meeting);
+
+            //AsRepo.CreateSubjectRelationship();
+
+            //ImportTopical();
+            //ImportGeographicRelations();
             return View();
         }
+
+        public ActionResult Subject() => View();
     }
 }

@@ -1,0 +1,27 @@
+﻿@model AuthorityCouch.Models.ExportViewModel
+@{
+    ViewBag.Title = "Export";
+    Layout = "../Shared/_SubjectLayout.cshtml";
+}
+
+<h2>Export</h2>
+<hr />
+<h5>ArchivesSpace</h5>
+<a href="@Url.Action("SubjectAuthorities", "Export")">Download Subject authorities</a>
+<hr />
+@using (Html.BeginForm("SubjectAuthoritiesByGuide", "Export"))
+{
+    <label>Download Subject authorities by guide</label>
+    <div class="input-group">
+        @Html.TextBoxFor(m => m.NewAsResource, new { @class = "form-control", list = "asList", placeholder = "Search guide title..." })
+        <datalist id="asList">
+            @foreach (var subject in Model.AsResources)
+            {
+                <option value="@subject.Text" />
+            }
+        </datalist>
+        <div class="input-group-append">
+            <input type="submit" value="Download" class="btn btn-primary" />
+        </div>
+    </div>
+}

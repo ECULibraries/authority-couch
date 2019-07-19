@@ -51,15 +51,27 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MySql.Data, Version=6.10.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.10.8\lib\net452\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPoco, Version=4.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPoco.4.0.1\lib\net45\NPoco.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=106.6.10.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.6.10\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -123,11 +135,42 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AssignController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CreateController.cs" />
+    <Compile Include="Controllers\DeleteController.cs" />
+    <Compile Include="Controllers\EditController.cs" />
+    <Compile Include="Controllers\ExportController.cs" />
+    <Compile Include="Controllers\GuideController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CacheHelper.cs" />
+    <Compile Include="Models\AsResource.cs" />
+    <Compile Include="Models\AssignViewModel.cs" />
+    <Compile Include="Models\AsSubject.cs" />
+    <Compile Include="Models\AsSubjectRelationship.cs" />
+    <Compile Include="Models\AsSubjectTerm.cs" />
+    <Compile Include="Models\AsTerm.cs" />
+    <Compile Include="Models\CouchDoc.cs" />
+    <Compile Include="Models\EditViewModel.cs" />
+    <Compile Include="Models\ExportViewModel.cs" />
+    <Compile Include="Models\GuideViewModel.cs" />
+    <Compile Include="Models\Import\Corporate.cs" />
+    <Compile Include="Models\Import\CorporateName.cs" />
+    <Compile Include="Models\Import\FamilyName.cs" />
+    <Compile Include="Models\Import\Geographic.cs" />
+    <Compile Include="Models\Import\Meeting.cs" />
+    <Compile Include="Models\Import\OldTopical.cs" />
+    <Compile Include="Models\Import\Personal.cs" />
+    <Compile Include="Models\Import\PersonName.cs" />
+    <Compile Include="Models\Import\SubstringData.cs" />
+    <Compile Include="Models\Import\Topical.cs" />
+    <Compile Include="Models\SearchViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ArchivesSpaceRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -136,9 +179,24 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Images\favicon.png" />
+    <Content Include="Content\Site.css">
+      <DependentUpon>Site.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.min.css">
+      <DependentUpon>Site.css</DependentUpon>
+    </Content>
+    <Content Include="Download\README.txt" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <None Include="Content\Site.scss" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -161,6 +219,11 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -169,6 +232,7 @@
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.quicksearch.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -193,7 +257,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Name.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
@@ -203,10 +267,27 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Search\Name.cshtml" />
+    <Content Include="Views\Assign\Name.cshtml" />
+    <Content Include="Views\Edit\Name.cshtml" />
+    <Content Include="Views\Create\Name.cshtml" />
+    <Content Include="Views\Guide\Name.cshtml" />
+    <Content Include="Views\Guide\NameView.cshtml" />
+    <Content Include="Views\Shared\_SubjectLayout.cshtml" />
+    <Content Include="Views\Home\Subject.cshtml" />
+    <Content Include="Views\Search\Subject.cshtml" />
+    <Content Include="Views\Create\Subject.cshtml" />
+    <Content Include="Views\Edit\Subject.cshtml" />
+    <Content Include="Views\Assign\Subject.cshtml" />
+    <Content Include="Views\Guide\Subject.cshtml" />
+    <Content Include="Views\Guide\SubjectView.cshtml" />
+    <Content Include="Views\Export\Name.cshtml" />
+    <Content Include="Views\Export\Subject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Views\Base\" />
+    <Folder Include="Views\Delete\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

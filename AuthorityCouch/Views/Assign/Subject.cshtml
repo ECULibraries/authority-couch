@@ -1,0 +1,145 @@
+﻿@model AuthorityCouch.Models.AssignViewModel
+@{
+    ViewBag.Title = "Assign";
+    Layout = "../Shared/_SubjectLayout.cshtml";
+}
+
+<h2><span class="text-muted">Assign > </span>@Model.Doc.authoritativeLabel</h2>
+<small class="text-muted"><a href="@Url.Action("Subject", "Edit", new { id = Model.Doc._id})"><span class="fa fa-pencil"></span> Edit Authority</a></small>
+<hr />
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning" role="alert">
+        @Html.Raw(@TempData["Message"])
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        @using (Html.BeginForm("AssignSubjectAsResource", "Assign"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.Doc._id)
+
+            <h5>Assign to ArchivesSpace resource</h5>
+            <hr />
+            <div class="form-group">
+                @Html.TextBoxFor(m => m.NewAsResource, new { @class = "form-control", list = "asList", placeholder = "Search guide title..." })
+                <datalist id="asList">
+                    @foreach (var subject in Model.AsResources)
+                    {
+                        <option value="@subject.Text" />
+                    }
+                </datalist>
+            </div>
+
+            @*<h5>as a Subject</h5>*@
+            <input type="submit" value="Topic (650)" class="btn btn-primary mt-2" name="asButton" />
+            <input type="submit" value="Geographic (651)" class="btn btn-success mt-2" name="asButton" />
+            <input type="submit" value="PersonalName (600)" class="btn btn-secondary mt-2" name="asButton" />
+            <input type="submit" value="FamilyName (600)" class="btn btn-secondary mt-2" name="asButton" />
+            <input type="submit" value="CorporateName (610)" class="btn btn-secondary mt-2" name="asButton" />
+            <input type="submit" value="MeetingName (611)" class="btn btn-secondary mt-2" name="asButton" />
+            <input type="submit" value="UniformTitle (630)" class="btn btn-secondary mt-2" name="asButton" />
+        }
+    </div>
+</div>
+
+<hr />
+<h5>Existing assignments</h5>
+
+<ul class="list-unstyled">
+    @if (Model.Doc.topic != null)
+    {
+        foreach (var item in Model.Doc.topic)
+        {
+            <li>
+                @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
+                <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
+                <a href="@Url.Action("SubjectView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
+                <span class="badge badge-pill badge-secondary">topic</span>
+                <a href="@Url.Action("RemoveSubjectAsResource", "Assign", new { id = Model.Doc._id, type = "topic", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
+            </li>
+        }
+    }
+    @if (Model.Doc.geographic != null)
+    {
+        foreach (var item in Model.Doc.geographic)
+        {
+            <li>
+                @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
+                <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
+                <a href="@Url.Action("SubjectView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
+                <span class="badge badge-pill badge-secondary">geographic</span>
+                <a href="@Url.Action("RemoveSubjectAsResource", "Assign", new { id = Model.Doc._id, type = "geographic", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
+            </li>
+        }
+    }
+    @if (Model.Doc.personalNameSubject != null)
+    {
+        foreach (var item in Model.Doc.personalNameSubject)
+        {
+            <li>
+                @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
+                <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
+                <a href="@Url.Action("SubjectView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
+                <span class="badge badge-pill badge-secondary">personalNameSubject</span>
+                <a href="@Url.Action("RemoveSubjectAsResource", "Assign", new { id = Model.Doc._id, type = "personalNameSubject", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
+            </li>
+        }
+    }
+    @if (Model.Doc.familyNameSubject != null)
+    {
+        foreach (var item in Model.Doc.familyNameSubject)
+        {
+            <li>
+                @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
+                <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
+                <a href="@Url.Action("SubjectView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
+                <span class="badge badge-pill badge-secondary">familyNameSubject</span>
+                <a href="@Url.Action("RemoveSubjectAsResource", "Assign", new { id = Model.Doc._id, type = "familyNameSubject", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
+            </li>
+        }
+    }
+    @if (Model.Doc.corporateNameSubject != null)
+    {
+        foreach (var item in Model.Doc.corporateNameSubject)
+        {
+            <li>
+                @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
+                <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
+                <a href="@Url.Action("SubjectView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
+                <span class="badge badge-pill badge-secondary">corporateNameSubject</span>
+                <a href="@Url.Action("RemoveSubjectAsResource", "Assign", new {id = Model.Doc._id, type = "corporateNameSubject", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
+            </li>
+        }
+    }
+    @if (Model.Doc.meeting != null)
+    {
+        foreach (var item in Model.Doc.meeting)
+        {
+            <li>
+                @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
+                <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
+                <a href="@Url.Action("SubjectView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
+                <span class="badge badge-pill badge-secondary">meeting</span>
+                <a href="@Url.Action("RemoveSubjectAsResource", "Assign", new {id = Model.Doc._id, type = "meeting", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
+            </li>
+        }
+    }
+    @if (Model.Doc.uniformTitle != null)
+    {
+        foreach (var item in Model.Doc.uniformTitle)
+        {
+            <li>
+                @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
+                <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
+                <a href="@Url.Action("SubjectView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
+                <span class="badge badge-pill badge-secondary">uniformTitle</span>
+                <a href="@Url.Action("RemoveSubjectAsResource", "Assign", new {id = Model.Doc._id, type = "uniformTitle", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
+            </li>
+        }
+    }
+</ul>
+
+

@@ -1,0 +1,50 @@
+﻿@model AuthorityCouch.Models.SearchViewModel
+@{
+    ViewBag.Title = "Search";
+    Layout = "../Shared/_SubjectLayout.cshtml";
+}
+
+<h2>Search</h2>
+<p>Enter one or more letters to retrieve matching subjects.</p>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="input-group">
+                @Html.EditorFor(model => Model.Term, new { htmlAttributes = new { @class = "form-control col-md-6", placeholder = "Enter term" } })
+                @Html.ValidationMessageFor(model => Model.Term, "", new { @class = "text-danger" })
+                <div class="input-group-append">
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model.Results.Docs.Count > 0)
+{
+    <h5>Results</h5>
+    <ul class="list-unstyled mt-2">
+        @foreach (var doc in Model.Results.Docs)
+        {
+            <li>
+                <a href="@Url.Action("Subject", "Assign", new {id = doc._id })">@doc.authoritativeLabel</a>
+                @*<a href="@Url.Action("Index", "Assign", new {s1 = Model.data.results.bindings[i].uri.value.Replace(ViewBag.AuthorityBase, "")})">@Model.data.results.bindings[i].label.value</a>
+                    <a href="@Url.Action("Index", "Edit", new {s1 = Model.data.results.bindings[i].uri.value.Replace(ViewBag.AuthorityBase, "")})"><i class="fa fa-plus"></i></a>*@
+            </li>
+
+        }
+    </ul>
+
+}
+else if (Model.Term != null)
+{
+    <h4 class="mt-4">No match found, create <em><a href="@Url.Action("Subject", "Create")?label=@ViewBag.EncodedTerm">@Model.Term</a>?</em></h4>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

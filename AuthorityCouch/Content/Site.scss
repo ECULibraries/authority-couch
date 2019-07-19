@@ -1,0 +1,32 @@
+﻿$purple: #41215e;
+
+body {
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-top: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#ecu-logo {
+    position: absolute;
+    top: 2px;
+}
+
+#ecu-logo img {
+    height: 45px;
+}
+
+/* footer */
+#ecu-footer-name {
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+#ecu-footer-contact {
+    font-size: 80%;
+    margin-left: 10px;
+}

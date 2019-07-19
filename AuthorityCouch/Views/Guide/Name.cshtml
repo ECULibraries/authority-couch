@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "ArchivesSpace";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>External > ArchivesSpace</h2>
+        <p class="mb-0">Choose guide to see assigned authorities.</p>
+    </div>
+    <div class="col-md-6 text-right">
+        <a class="btn btn-warning" href="@Url.Action("UpdateNameCache", "Guide")">
+            <span class="fa fa-recycle"></span> Update List
+        </a>
+        <p class="small text-muted mt-1 mb-0">List is automatically updates every 24-hours.</p>
+
+    </div>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <input type="text" class="form-control" id="search" placeholder="Filter Resources">
+        </div>
+    </div>
+</div>
+
+<ul class="list-unstyled" id="listTickets">
+    @foreach (var item in Model)
+    {
+        <li>
+            <a href="@ViewBag.ArchivesSpaceUrl@item.id" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a> <a href="@Url.Action("NameView", "Guide", new {item.id })">@item.title (@item.ead_id)</a>
+        </li>
+    }
+</ul>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/quicksearch")
+    <script>
+        $('input#search').quicksearch('#listTickets, li');
+    </script>
+}

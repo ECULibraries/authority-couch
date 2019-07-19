@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Home";
+    Layout = "../Shared/_SubjectLayout.cshtml";
+}
+
+<div class="jumbotron">
+    <h1>ECU Libraries Subject Authority</h1>
+    <p class="lead">Switch to the <a href="@Url.Action("Name")">Name Authority</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Search</h2>
+        <p>Find records in the authority.</p>
+        <p><a class="btn btn-primary" href="@Url.Action("Subject", "Search")">Search &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Create</h2>
+        <p>Create new authority record.</p>
+        <p><a class="btn btn-primary" href="@Url.Action("Subject", "Create")">Create &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>External</h2>
+        <p>Resources using the authority.</p>
+        <p><a class="btn btn-primary" href="@Url.Action("Subject", "Guide")">AS Resources &raquo;</a></p>
+    </div>
+</div>

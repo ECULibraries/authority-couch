@@ -1,0 +1,30 @@
+﻿@model AuthorityCouch.Models.Doc
+@{
+    ViewBag.Title = "Create";
+    Layout = "../Shared/_SubjectLayout.cshtml";
+}
+
+<h2>Create Subject Authority</h2>
+The value entered with be checked against existing values to avoid duplicate records.
+<hr />
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning" role="alert">
+        @Html.Raw(@TempData["Message"])
+    </div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(model => model.authoritativeLabel) <span class="text-danger">*</span>
+        @Html.EditorFor(model => model.authoritativeLabel, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.authoritativeLabel, "", new { @class = "text-danger" })
+    </div>
+    <input name="action" type="submit" class="btn btn-primary" value="Create" onclick="return confirm('Are you sure you want to create this authority?')" />
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

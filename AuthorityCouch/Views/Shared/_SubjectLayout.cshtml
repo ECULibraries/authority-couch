@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Name Authority</title>
+    <title>@ViewBag.Title - Subject Authority</title>
     <link rel="shortcut icon" href="@Url.Content("~/Content/Images/favicon.png")">
     <link rel="apple-touch-icon" href="@Url.Content("~/Content/Images/favicon.png")">
     @Styles.Render("~/Content/css")
@@ -11,7 +11,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-        @Html.ActionLink("Name Authority", "Name", "Home", null, new { @class = "navbar-brand" })
+        @Html.ActionLink("Subject Authority", "Subject", "Home", null, new { @class = "navbar-brand" })
         <span class="navbar-text">&nbsp;</span>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -20,20 +20,20 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
-                <li class="nav-item"><a href="@Url.Action("Name", "Create")" class="nav-link">Create</a></li>
+                <li class="nav-item"><a href="@Url.Action("Subject", "Create")" class="nav-link">Create</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">External</a>
                     <div class="dropdown-menu">
-                        <a href="@Url.Action("Name", "Guide")" class="dropdown-item">ArchivesSpace</a>
-                        <a href="#" class="dropdown-item disabled">Digital Collections</a>
+                        <a href="@Url.Action("Subject", "Guide")" class="dropdown-item">ArchivesSpace</a>
+                        <a href=#" class="dropdown-item disabled">Digital Collections</a>
                     </div>
                 </li>
-                <li class="nav-item"><a href="@Url.Action("Name", "Export")" class="nav-link">Export</a></li>
+                <li class="nav-item"><a href="@Url.Action("Subject", "Export")" class="nav-link">Export</a></li>
                 <li>
                     <a href="https://lib.ecu.edu/central/logout" class="nav-link">Logout</a>
                 </li>
                 <li class="nav-item">
-                    @using (Html.BeginForm("Name", "Search"))
+                    @using (Html.BeginForm("Subject", "Search"))
                     {
                         @Html.AntiForgeryToken()
                         <div class="row">
