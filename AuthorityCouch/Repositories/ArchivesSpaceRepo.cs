@@ -54,12 +54,12 @@ namespace AuthorityCouch.Repositories
                 .OrderBy("person_name, family_name, corp_name");
 
             var subjectSql = Sql.Builder
-                .Select("subject.id, subject.title AS subject, enumeration_value.value AS type")
+                .Select("subject.id, subject.title AS subject, (select value from archivesspace.enumeration_value where id = (select term_type_id from archivesspace.term WHERE id = (select term_id from archivesspace.subject_term where subject_id = subject.id))) AS type")
                 .From("subject_rlshp")
                 .LeftJoin("subject").On("subject.id = subject_rlshp.subject_id")
-                .LeftJoin("subject_term").On("subject_term.subject_id = subject_rlshp.subject_id")
-                .LeftJoin("term").On("term.id = subject_term.id")
-                .LeftJoin("enumeration_value").On("enumeration_value.id = term.term_type_id")
+                //.LeftJoin("subject_term").On("subject_term.subject_id = subject_rlshp.subject_id")
+                //.LeftJoin("term").On("term.id = subject_term.id")
+                //.LeftJoin("enumeration_value").On("enumeration_value.id = term.term_type_id")
                 .Where("resource_id = @0", resourceId);
 
             using (var db = Connection)

@@ -26,15 +26,72 @@ namespace AuthorityCouch.Controllers
         public ActionResult NameAuthorities()
         {
             var results = GetNameAllDocs();
+            var agentLinks = AsRepo.GetLinkedAgents();
 
             var csv = new StringBuilder();
-            csv.AppendLine("id,authoritativeLabel,archivesSpaceUri");
+            csv.AppendLine("id,authoritativeLabel,archivesSpaceUri,rid,found");
+
+            AgentGroup found;
+            var match = false;
 
             foreach (var result in results)
             {
                 if (!result.doc._id.StartsWith("_"))
                 {
-                    csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{result.doc.archivesSpaceUri}");
+                    if (result.doc.personalNameCreator != null)
+                    {
+                        foreach (var item in result.doc.personalNameCreator)
+                        {
+                            found = agentLinks.Find(x => x.person_name == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.role_id == 878);
+                            if (found != null) { match = true; }
+                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{result.doc.archivesSpaceUri},personalCreator,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match}");
+                        }
+                    }
+                    if (result.doc.personalNameSource != null)
+                    {
+                        foreach (var item in result.doc.personalNameSource)
+                        {
+                            found = agentLinks.Find(x => x.person_name == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.role_id == 879);
+                            if (found != null) { match = true; }
+                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{result.doc.archivesSpaceUri},personalSource,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match}");
+                        }
+                    }
+                    if (result.doc.familyNameCreator != null)
+                    {
+                        foreach (var item in result.doc.familyNameCreator)
+                        {
+                            found = agentLinks.Find(x => x.family_name == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.role_id == 878);
+                            if (found != null) { match = true; }
+                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{result.doc.archivesSpaceUri},familyCreator,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match}");
+                        }
+                    }
+                    if (result.doc.familyNameSource != null)
+                    {
+                        foreach (var item in result.doc.familyNameSource)
+                        {
+                            found = agentLinks.Find(x => x.family_name == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.role_id == 879);
+                            if (found != null) { match = true; }
+                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{result.doc.archivesSpaceUri},familySource,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match}");
+                        }
+                    }
+                    if (result.doc.corporateNameCreator != null)
+                    {
+                        foreach (var item in result.doc.corporateNameCreator)
+                        {
+                            found = agentLinks.Find(x => x.corp_name == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.role_id == 878);
+                            if (found != null) { match = true; }
+                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{result.doc.archivesSpaceUri},corporateCreator,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match}");
+                        }
+                    }
+                    if (result.doc.corporateNameSource != null)
+                    {
+                        foreach (var item in result.doc.corporateNameSource)
+                        {
+                            found = agentLinks.Find(x => x.corp_name == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.role_id == 879);
+                            if (found != null) { match = true; }
+                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{result.doc.archivesSpaceUri},corporateSource,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match}");
+                        }
+                    }
                 }
             }
 
@@ -206,16 +263,82 @@ namespace AuthorityCouch.Controllers
 
         public ActionResult SubjectAuthorities()
         {
-            var results = GetSubjectAllDocs();
-
+            var authority = GetSubjectAllDocs();
+            var subjectLinks = AsRepo.GetLinkedSubjects();
+            
             var csv = new StringBuilder();
-            csv.AppendLine("id,authoritativeLabel,archivesSpaceUri");
+            csv.AppendLine("id,authoritativeLabel,archivesSpaceUri,type,rid,found");
 
-            foreach (var result in results)
+            SubjectGroup found;
+            var match = false;
+
+            foreach (var result in authority)
             {
                 if (!result.doc._id.StartsWith("_"))
                 {
-                    csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{result.doc.archivesSpaceUri}");
+                    if (result.doc.topic != null)
+                    {
+                        foreach (var topic in result.doc.topic)
+                        {
+                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == topic.Replace("http://archivesspace.ecu.edu/resources/", "") && x.type == "topical");
+                            if (found != null) { match = true; }
+                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{result.doc.archivesSpaceUri},topical,{topic.Replace("http://archivesspace.ecu.edu/resources/", "")},{match}");
+                        }
+                    }
+                    if (result.doc.geographic != null)
+                    {
+                        foreach (var item in result.doc.geographic)
+                        {
+                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.type == "geographic");
+                            if (found != null) { match = true; }
+                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{result.doc.archivesSpaceUri},geographic,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match}");
+                        }
+                    }
+                    if (result.doc.personalNameSubject != null)
+                    {
+                        foreach (var item in result.doc.personalNameSubject)
+                        {
+                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.type == "personal");
+                            if (found != null){match = true;}
+                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{result.doc.archivesSpaceUri},personal,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match}");
+                        }
+                    }
+                    if (result.doc.familyNameSubject != null)
+                    {
+                        foreach (var item in result.doc.familyNameSubject)
+                        {
+                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.type == "family");
+                            if (found != null) { match = true; }
+                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{result.doc.archivesSpaceUri},family,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match}");
+                        }
+                    }
+                    if (result.doc.corporateNameSubject != null)
+                    {
+                        foreach (var item in result.doc.corporateNameSubject)
+                        {
+                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.type == "corporate");
+                            if (found != null) { match = true; }
+                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{result.doc.archivesSpaceUri},corporate,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match}");
+                        }
+                    }
+                    if (result.doc.meeting != null)
+                    {
+                        foreach (var item in result.doc.meeting)
+                        {
+                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.type == "meeting");
+                            if (found != null) { match = true; }
+                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{result.doc.archivesSpaceUri},meeting,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match}");
+                        }
+                    }
+                    if (result.doc.uniformTitle != null)
+                    {
+                        foreach (var item in result.doc.uniformTitle)
+                        {
+                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.type == "uniform_title");
+                            if (found != null) { match = true; }
+                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{result.doc.archivesSpaceUri},title,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match}");
+                        }
+                    }
                 }
             }
 
@@ -281,76 +404,7 @@ namespace AuthorityCouch.Controllers
                         rLink = false;
                     }
                 }
-                //    if (link.agent_corporate_entity_id != null)
-                //    {
-                //        match = authority.Find(x => x.doc.authoritativeLabel == link.corp_name);
-                //        if (match == null)
-                //        {
-                //            labelMatch = false;
-                //            asLink = false;
-                //            rLink = false;
-                //        }
-                //        else
-                //        {
-                //            labelMatch = true;
-                //            asLink = link.agent_corporate_entity_id.ToString() == match.doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_corporate_entity/", "");
-                //            if (link.role_id == 878)
-                //            {
-                //                rLink = match.doc.corporateNameCreator.Contains(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + link.resource_id);
-                //            }
-                //            else
-                //            {
-                //                rLink = match.doc.corporateNameSource.Contains(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + link.resource_id);
-                //            }
-                //        }
-                //    }
-                //    else if (link.agent_person_id != null)
-                //    {
-                //        match = authority.Find(x => x.doc.authoritativeLabel == link.person_name);
-                //        if (match == null)
-                //        {
-                //            labelMatch = false;
-                //            asLink = false;
-                //            rLink = false;
-                //        }
-                //        else
-                //        {
-                //            labelMatch = true;
-                //            asLink = link.agent_person_id.ToString() == match.doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_person/", "");
-                //            if (link.role_id == 878)
-                //            {
-                //                rLink = match.doc.personalNameCreator.Contains(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + link.resource_id);
-                //            }
-                //            else
-                //            {
-                //                rLink = match.doc.personalNameSource.Contains(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + link.resource_id);
-                //            }
-                //        }
-                //    }
-                //    else
-                //    {
-                //        match = authority.Find(x => x.doc.authoritativeLabel == link.family_name);
-                //        if (match == null)
-                //        {
-                //            labelMatch = false;
-                //            asLink = false;
-                //            rLink = false;
-                //        }
-                //        else
-                //        {
-                //            labelMatch = true;
-                //            asLink = link.agent_family_id.ToString() == match.doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_family/", "");
-                //            if (link.role_id == 878)
-                //            {
-                //                rLink = match.doc.familyNameCreator.Contains(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + link.resource_id);
-                //            }
-                //            else
-                //            {
-                //                rLink = match.doc.familyNameSource.Contains(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + link.resource_id);
-                //            }
-                //        }
-                //    }
-
+                
                 csv.AppendLine($"{labelMatch},{asLink},{rLink},{link.id},{link.resource_id},\"{link.subject}\",{link.type}");
             }
 

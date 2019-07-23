@@ -53,14 +53,6 @@ namespace AuthorityCouch.Controllers
             return svm;
         }
 
-        //public SearchViewModel SearchByLabel(SearchViewModel svm)
-        //{
-        //    var request = new RestRequest($"authority/_find", Method.POST, DataFormat.Json);
-        //    request.AddParameter("application/json", "{\"selector\":{\"authoritativeLabel\": \"" + svm.Term + "\" } }", ParameterType.RequestBody);
-        //    svm.Results = JsonConvert.DeserializeObject<CouchDocs>(_client.Execute(request).Content);
-        //    return svm;
-        //}
-
         public SearchViewModel SearchNameByLabel(SearchViewModel svm)
         {
             var request = new RestRequest($"name_authority/_find", Method.POST, DataFormat.Json);
@@ -77,21 +69,10 @@ namespace AuthorityCouch.Controllers
             return svm;
         }
 
-        //public SearchViewModel SearchByAsUri(string uri)
-        //{
-        //    var svm = new SearchViewModel();
-        //    var request = new RestRequest($"authority/_find", Method.POST, DataFormat.Json);
-        //    //request.AddParameter("application/json", "{\"selector\":{\"geographic\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} } } }", ParameterType.RequestBody);
-        //    request.AddParameter("application/json", "{\"selector\": {\"$or\": [ {\"topic\":{\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, {\"geographic\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}] } }", ParameterType.RequestBody);
-        //    svm.Results = JsonConvert.DeserializeObject<CouchDocs>(_client.Execute(request).Content);
-        //    return svm;
-        //}
-
         public SearchViewModel SearchNameByAsUri(string uri)
         {
             var svm = new SearchViewModel();
             var request = new RestRequest($"name_authority/_find", Method.POST, DataFormat.Json);
-            //request.AddParameter("application/json", "{\"selector\":{\"geographic\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} } } }", ParameterType.RequestBody);
             request.AddParameter("application/json", "{\"selector\": {\"$or\": [ {\"personalNameCreator\":{\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, " +
                                                      "{\"personalNameSource\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, " +
                                                      "{\"corporateNameCreator\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, " +
@@ -106,7 +87,6 @@ namespace AuthorityCouch.Controllers
         {
             var svm = new SearchViewModel();
             var request = new RestRequest($"subject_authority/_find", Method.POST, DataFormat.Json);
-            //request.AddParameter("application/json", "{\"selector\":{\"topic\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} } } }", ParameterType.RequestBody);
             request.AddParameter("application/json", "{\"selector\": {\"$or\": [ {\"topic\":{\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, " +
                                                      "{\"geographic\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, " +
                                                      "{\"personalNameSubject\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, " +
@@ -114,8 +94,6 @@ namespace AuthorityCouch.Controllers
                                                      "{\"corporateNameSubject\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, " +
                                                      "{\"meeting\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, " +
                                                      "{\"uniformTitle\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}] }, \"limit\": 100, \"sort\": [{\"authoritativeLabel\": \"asc\"}] }", ParameterType.RequestBody);
-            //request.AddParameter("application/json", "{\"selector\": {\"$or\": [ {\"geographic\":{\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, " +
-            //                                         "{\"personalNameSubject\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}] },\"limit\":100 }", ParameterType.RequestBody);
             svm.Results = JsonConvert.DeserializeObject<CouchDocs>(_client.Execute(request).Content);
             svm.Results.Docs.OrderBy(x => x.topic).OrderBy(x => x.geographic);
             return svm;
