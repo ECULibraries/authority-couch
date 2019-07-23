@@ -30,7 +30,7 @@
                             <i class="fa fa-check-circle text-success"></i>
                         }
                     }
-                    else if (doc.personalNameSource != null)
+                    @if (doc.personalNameSource != null)
                     {
                         var match = Model.AsAgents.Find(x => x.person_name == doc.authoritativeLabel);
                         if (match != null && match.role_id == 879 && match.agent_person_id.ToString() == doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_person/", ""))
@@ -38,7 +38,7 @@
                             <i class="fa fa-check-circle text-success"></i>
                         }
                     }
-                    else if (doc.familyNameCreator != null)
+                    @if (doc.familyNameCreator != null)
                     {
                         var match = Model.AsAgents.Find(x => x.family_name == doc.authoritativeLabel);
                         if (match != null && match.role_id == 878 && match.agent_family_id.ToString() == doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_family/", ""))
@@ -46,7 +46,7 @@
                             <i class="fa fa-check-circle text-success"></i>
                         }
                     }
-                    else if (doc.familyNameSource != null)
+                    @if (doc.familyNameSource != null)
                     {
                         var match = Model.AsAgents.Find(x => x.family_name == doc.authoritativeLabel);
                         if (match != null && match.role_id == 879 && match.agent_family_id.ToString() == doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_family/", ""))
@@ -54,7 +54,7 @@
                             <i class="fa fa-check-circle text-success"></i>
                         }
                     }
-                    else if (doc.corporateNameCreator != null)
+                    @if (doc.corporateNameCreator != null)
                     {
                         var match = Model.AsAgents.Find(x => x.corp_name == doc.authoritativeLabel);
                         if (match != null && match.role_id == 878 && match.agent_corporate_entity_id.ToString() == doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_corporate_entity/", ""))
@@ -62,7 +62,7 @@
                             <i class="fa fa-check-circle text-success"></i>
                         }
                     }
-                    else if (doc.corporateNameSource != null)
+                    @if (doc.corporateNameSource != null)
                     {
                         var match = Model.AsAgents.Find(x => x.corp_name == doc.authoritativeLabel);
                         if (match != null && match.role_id == 879 && match.agent_corporate_entity_id.ToString() == doc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_corporate_entity/", ""))

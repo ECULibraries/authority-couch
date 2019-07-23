@@ -71,6 +71,45 @@ namespace AuthorityCouch.Repositories
             return gvm;
         }
 
+        public List<AgentGroup> GetLinkedAgents()
+        {
+            var agentSql = Sql.Builder
+                .Select("linked_agents_rlshp.agent_person_id, linked_agents_rlshp.agent_family_id, linked_agents_rlshp.agent_corporate_entity_id, " +
+                        "linked_agents_rlshp.role_id, linked_agents_rlshp.resource_id, name_person.sort_name AS person_name, " +
+                        "name_family.sort_name AS family_name, name_corporate_entity.sort_name AS corp_name")
+                .From("linked_agents_rlshp")
+                .LeftJoin("agent_person").On("agent_person.id = linked_agents_rlshp.agent_person_id")
+                .LeftJoin("name_person").On("name_person.agent_person_id = linked_agents_rlshp.agent_person_id")
+                .LeftJoin("agent_family").On("agent_family.id = linked_agents_rlshp.agent_family_id")
+                .LeftJoin("name_family").On("name_family.agent_family_id = linked_agents_rlshp.agent_family_id")
+                .LeftJoin("agent_corporate_entity").On("agent_corporate_entity.id = linked_agents_rlshp.agent_corporate_entity_id")
+                .LeftJoin("name_corporate_entity").On("name_corporate_entity.agent_corporate_entity_id = linked_agents_rlshp.agent_corporate_entity_id")
+                .Where("resource_id IS NOT NULL")
+                .OrderBy("person_name, family_name, corp_name");
+
+            using (var db = Connection)
+            {
+                return db.Fetch<AgentGroup>(agentSql);
+            }
+        }
+
+        public List<SubjectGroup> GetLinkedSubjects()
+        {
+            var subjectSql = Sql.Builder
+                .Select("resource_id, subject.id, subject.title AS subject, (select value from archivesspace.enumeration_value where id = (select term_type_id from archivesspace.term WHERE id = (select term_id from archivesspace.subject_term where subject_id = subject.id))) AS type")
+                .From("subject_rlshp")
+                .LeftJoin("subject").On("subject.id = subject_rlshp.subject_id")
+                //.LeftJoin("subject_term").On("subject_term.subject_id = subject_rlshp.subject_id")
+                //.LeftJoin("term").On("term.id = subject_term.id")
+                //.LeftJoin("enumeration_value").On("enumeration_value.id = term.term_type_id")
+                .Where("resource_id IS NOT NULL");
+
+            using (var db = Connection)
+            {
+                return db.Fetch<SubjectGroup>(subjectSql);
+            }
+        }
+
         public void CreateSubjectRelationship()
         {
             var meeting = new Meeting();

@@ -7,15 +7,21 @@ using AuthorityCouch.Models.Import;
 using AuthorityCouch.Repositories;
 using Newtonsoft.Json;
 using RestSharp;
+using RestSharp.Authenticators;
 
 namespace AuthorityCouch.Controllers
 {
     public class BaseController : Controller
     {
         public ArchivesSpaceRepo AsRepo;
-        private RestClient _client => new RestClient(ConfigurationManager.AppSettings["CouchBase"]);
+        private RestClient _client => new RestClient(ConfigurationManager.AppSettings["CouchBase"])
+        {
+            Authenticator = new HttpBasicAuthenticator(ConfigurationManager.AppSettings["CouchAdmin"],
+                ConfigurationManager.AppSettings["CouchPass"])
+        };
 
-        public BaseController()
+
+    public BaseController()
         {
             AsRepo = new ArchivesSpaceRepo();
         }
@@ -30,7 +36,7 @@ namespace AuthorityCouch.Controllers
         public SearchViewModel SearchNamePrefix(SearchViewModel svm)
         {
             var request = new RestRequest($"name_authority/_find", Method.POST, DataFormat.Json);
-            request.AddParameter("application/json", "{ \"selector\": {\"authoritativeLabel\": {\"$regex\": \"^" + svm.Term + "\"} }, \"sort\": [{\"authoritativeLabel\": \"asc\"}] }", ParameterType.RequestBody);
+            request.AddParameter("application/json", "{ \"selector\": {\"authoritativeLabel\": {\"$regex\": \"^" + svm.Term + "\"} }, \"sort\": [{\"authoritativeLabel\": \"asc\"}], \"limit\": 1000 }", ParameterType.RequestBody);
 
             var test = _client.Execute(request).Content;
             svm.Results = JsonConvert.DeserializeObject<CouchDocs>(test);
@@ -40,7 +46,7 @@ namespace AuthorityCouch.Controllers
         public SearchViewModel SearchSubjectPrefix(SearchViewModel svm)
         {
             var request = new RestRequest($"subject_authority/_find", Method.POST, DataFormat.Json);
-            request.AddParameter("application/json", "{ \"selector\": {\"authoritativeLabel\": {\"$regex\": \"^" + svm.Term + "\"} }, \"sort\": [{\"authoritativeLabel\": \"asc\"}] }", ParameterType.RequestBody);
+            request.AddParameter("application/json", "{ \"selector\": {\"authoritativeLabel\": {\"$regex\": \"^" + svm.Term + "\"} }, \"sort\": [{\"authoritativeLabel\": \"asc\"}], \"limit\": 1000 }", ParameterType.RequestBody);
 
             var test = _client.Execute(request).Content;
             svm.Results = JsonConvert.DeserializeObject<CouchDocs>(test);
@@ -91,7 +97,7 @@ namespace AuthorityCouch.Controllers
                                                      "{\"corporateNameCreator\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, " +
                                                      "{\"corporateNameSource\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, " +
                                                      "{\"familyNameCreator\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, " +
-                                                     "{\"familyNameSource\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}] } }", ParameterType.RequestBody);
+                                                     "{\"familyNameSource\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}] }, \"limit\": 100 }", ParameterType.RequestBody);
             svm.Results = JsonConvert.DeserializeObject<CouchDocs>(_client.Execute(request).Content);
             return svm;
         }
