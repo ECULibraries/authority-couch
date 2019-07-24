@@ -1,4 +1,6 @@
-﻿namespace AuthorityCouch.Models
+﻿using System.Security.Permissions;
+
+namespace AuthorityCouch.Models
 {
     public class AgentGroup
     {
@@ -10,6 +12,7 @@
         public string person_name { get; set; }
         public string family_name { get; set; }
         public string corp_name { get; set; }
+        public string authority_id { get; set; }
     }
 
     public class SubjectGroup
@@ -18,5 +21,6 @@
         public string type { get; set; }
         public int id { get; set; }
         public int resource_id { get; set; }
+        public string authority_id { get; set; }
     }
 }
