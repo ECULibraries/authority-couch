@@ -182,6 +182,31 @@ namespace AuthorityCouch.Controllers
             }
         }
 
+        public void AddAuths()
+        {
+            var auths = new Auths();
+            foreach (var item in auths.List)
+            {
+                var doc = GetSubjectDocByUuid(item[2]);
+
+                //doc.externalAuthorityUri = item[0];
+                doc.substrings[0].externalAuthorityUri = item[0];
+                doc.substrings[1].externalAuthorityUri = item[1];
+                //doc.substrings[2].externalAuthorityUri = item[2];
+                //doc.substrings[3].externalAuthorityUri = item[3];
+                //doc.substrings[4].externalAuthorityUri = item[4];
+
+                //doc.substrings[2].authoritativeLabel = item[0];
+                //doc.authoritativeLabel = item[1];
+
+
+                var request = new RestRequest($"subject_authority/{doc._id}/", Method.PUT, DataFormat.Json);
+                var json = JsonConvert.SerializeObject(doc, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                request.AddJsonBody(json);
+                _client.Execute(request);
+            }
+        }
+
         public void ImportCorporate()
         {
             var corp = new Corporate();

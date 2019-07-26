@@ -178,6 +178,7 @@
     <Compile Include="Models\EditViewModel.cs" />
     <Compile Include="Models\ExportViewModel.cs" />
     <Compile Include="Models\GuideViewModel.cs" />
+    <Compile Include="Models\Import\Auths.cs" />
     <Compile Include="Models\Import\Corporate.cs" />
     <Compile Include="Models\Import\CorporateName.cs" />
     <Compile Include="Models\Import\FamilyName.cs" />

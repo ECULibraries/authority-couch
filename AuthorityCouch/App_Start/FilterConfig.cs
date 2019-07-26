@@ -8,8 +8,8 @@ namespace AuthorityCouch
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
-            filters.Add(new AuthorizeAttribute());
-            filters.Add(new CentralAuthorizeAttribute("Administrators"));
+            //filters.Add(new AuthorizeAttribute());
+            //filters.Add(new CentralAuthorizeAttribute("Administrators"));
         }
     }
 }

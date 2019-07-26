@@ -24,7 +24,7 @@
     </div>
 }
 
-@if (Model.Results.Docs.Count > 0)
+@if (Model.Results != null && Model.Results.Docs.Count > 0)
 {
     <h5>Results</h5>
     <ul class="list-unstyled mt-2">

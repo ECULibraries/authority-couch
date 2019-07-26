@@ -29,7 +29,7 @@ namespace AuthorityCouch.Repositories
 
             using (var db = Connection)
             {
-                cachedResources = db.Fetch<AsResource>("SELECT id, title, ead_id, repo_id FROM resource WHERE publish = 1 ORDER BY title;");
+                cachedResources = db.Fetch<AsResource>("SELECT id, title, ead_id, repo_id FROM resource ORDER BY title;"); //WHERE publish = 1 
                 CacheHelper.Add(cachedResources, "archivesspace_cache", DateTime.Now.AddHours(24));
             }
 
@@ -92,24 +92,25 @@ namespace AuthorityCouch.Repositories
             var personSql = Sql.Builder.Select("linked_agents_rlshp.agent_person_id, linked_agents_rlshp.role_id, linked_agents_rlshp.resource_id, name_person.sort_name AS person_name, authority_id")
                 .From("archivesspace.linked_agents_rlshp")
                 .InnerJoin("archivesspace.name_person").On("name_person.agent_person_id = linked_agents_rlshp.agent_person_id")
-                .InnerJoin("archivesspace.name_authority_id").On("name_authority_id.name_person_id = name_person.id")
+                .LeftJoin("archivesspace.name_authority_id").On("name_authority_id.name_person_id = name_person.id")
                 .Where("resource_id IS NOT NULL").OrderBy("person_name");
 
             var familySql = Sql.Builder.Select("linked_agents_rlshp.agent_family_id, linked_agents_rlshp.role_id, linked_agents_rlshp.resource_id, name_family.sort_name AS family_name, authority_id")
                 .From("archivesspace.linked_agents_rlshp")
                 .InnerJoin("archivesspace.name_family").On("name_family.agent_family_id = linked_agents_rlshp.agent_family_id")
-                .InnerJoin("archivesspace.name_authority_id").On("name_authority_id.name_family_id = name_family.id")
+                .LeftJoin("archivesspace.name_authority_id").On("name_authority_id.name_family_id = name_family.id")
                 .Where("resource_id IS NOT NULL").OrderBy("family_name");
 
             var corpSql = Sql.Builder.Select("linked_agents_rlshp.agent_corporate_entity_id, linked_agents_rlshp.role_id, linked_agents_rlshp.resource_id, name_corporate_entity.sort_name AS corp_name, authority_id")
                 .From("archivesspace.linked_agents_rlshp")
                 .InnerJoin("archivesspace.name_corporate_entity").On("name_corporate_entity.agent_corporate_entity_id = linked_agents_rlshp.agent_corporate_entity_id")
-                .InnerJoin("archivesspace.name_authority_id").On("name_authority_id.name_corporate_entity_id = name_corporate_entity.id")
+                .LeftJoin("archivesspace.name_authority_id").On("name_authority_id.name_corporate_entity_id = name_corporate_entity.id")
                 .Where("resource_id IS NOT NULL").OrderBy("corp_name");
 
             using (var db = Connection)
             {
-                var results =  db.FetchMultiple<AgentGroup, AgentGroup, AgentGroup>(personSql);
+                var results = db.FetchMultiple<AgentGroup, AgentGroup, AgentGroup>(personSql.SQL + ";" + familySql.SQL + ";" + corpSql.SQL);
+
                 retVal.AddRange(results.Item1);
                 retVal.AddRange(results.Item2);
                 retVal.AddRange(results.Item3);

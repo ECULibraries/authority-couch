@@ -7,14 +7,9 @@ namespace AuthorityCouch.Controllers
     {
         public ActionResult Name()
         {
-            //var meeting = new Meeting();
 
-            //AsRepo.SaveAsSubjects(meeting);
+            //AddAuths();
 
-            //AsRepo.CreateSubjectRelationship();
-
-            //ImportTopical();
-            //ImportGeographicRelations();
             return View();
         }
 

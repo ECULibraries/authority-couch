@@ -12,6 +12,12 @@ namespace AuthorityCouch
             routes.LowercaseUrls = true;
 
             routes.MapRoute(
+                name: "Login",
+                url: "login",
+                defaults: new { controller = "Login", action = "Index" }
+            );
+
+            routes.MapRoute(
                 name: "AssignAsName",
                 url: "assign/assignnameasresource/",
                 defaults: new { controller = "Assign", action = "AssignNameAsResource" }

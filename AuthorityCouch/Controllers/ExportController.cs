@@ -31,11 +31,12 @@ namespace AuthorityCouch.Controllers
             var csv = new StringBuilder();
             csv.AppendLine("id,authoritativeLabel,archivesSpaceUri,type,rid,found,auth_id_exists");
 
-            AgentGroup found;
-            var match = false;
-            var authMatch = false;
             foreach (var result in results)
             {
+                AgentGroup found;
+                var match = false;
+                var authMatch = false;
+
                 if (!result.doc._id.StartsWith("_"))
                 {
                     if (result.doc.personalNameCreator != null)
@@ -115,6 +116,13 @@ namespace AuthorityCouch.Controllers
                             }
                             csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{result.doc.archivesSpaceUri},corporateSource,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match},{authMatch}");
                         }
+                    }
+
+                    if (result.doc.personalNameCreator == null && result.doc.personalNameSource == null &&
+                        result.doc.familyNameCreator == null && result.doc.familyNameSource == null &&
+                        result.doc.corporateNameCreator == null && result.doc.corporateNameSource == null)
+                    {
+                        csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{result.doc.archivesSpaceUri},corporateSource,FALSE,{match},{authMatch}");
                     }
                 }
             }
@@ -278,16 +286,22 @@ namespace AuthorityCouch.Controllers
             csv.AppendLine("id,authoritativeLabel,archivesSpaceUri,type,rid,found,auth_id_exists");
 
             SubjectGroup found;
-            var match = false;
-            var authMatch = false;
+            
             foreach (var result in authority)
             {
+                var match = false;
+                var authMatch = false;
+
                 if (!result.doc._id.StartsWith("_"))
                 {
                     if (result.doc.topic != null)
                     {
                         foreach (var topic in result.doc.topic)
                         {
+                            if (result.doc.authoritativeLabel.StartsWith("Inchon"))
+                            {
+                                var x = 33;
+                            }
                             found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == topic.Replace("http://archivesspace.ecu.edu/resources/", "") && x.type == "topical");
                             if (found != null)
                             {
