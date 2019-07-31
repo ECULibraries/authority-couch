@@ -31,8 +31,9 @@
         {
             <li>
                 <a href="@Url.Action("Name", "Assign", new {id = doc._id })">@doc.authoritativeLabel</a>
+                <a href="@Url.Action("Name", "Edit", new {id = doc._id })"><i class="fa fa-plus"></i></a>
                 @*<a href="@Url.Action("Index", "Assign", new {s1 = Model.data.results.bindings[i].uri.value.Replace(ViewBag.AuthorityBase, "")})">@Model.data.results.bindings[i].label.value</a>
-                <a href="@Url.Action("Index", "Edit", new {s1 = Model.data.results.bindings[i].uri.value.Replace(ViewBag.AuthorityBase, "")})"><i class="fa fa-plus"></i></a>*@
+                *@
             </li>
 
         }
