@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
@@ -177,11 +178,11 @@ namespace AuthorityCouch.Controllers
                 {
                     if (link.role_id == 878)
                     {
-                        found = authority.Find(x => x.doc.authoritativeLabel == link.corp_name && x.doc.corporateNameCreator.Contains("http://archivesspace.ecu.edu/resources/" + link.resource_id) && x.doc.archivesSpaceUri == "http://archivesspace.ecu.edu/agents/agent_corporate_entity/" + link.agent_corporate_entity_id);
+                        found = authority.Find(x => x.doc.authoritativeLabel == link.corp_name && x.doc.corporateNameCreator != null && x.doc.corporateNameCreator.Contains("http://archivesspace.ecu.edu/resources/" + link.resource_id) && x.doc.archivesSpaceUri == "http://archivesspace.ecu.edu/agents/agent_corporate_entity/" + link.agent_corporate_entity_id);
                     }
                     else if(link.role_id == 879)
                     {
-                        found = authority.Find(x => x.doc.authoritativeLabel == link.corp_name && x.doc.corporateNameSource.Contains("http://archivesspace.ecu.edu/resources/" + link.resource_id) && x.doc.archivesSpaceUri == "http://archivesspace.ecu.edu/agents/agent_corporate_entity/" + link.agent_corporate_entity_id);
+                        found = authority.Find(x => x.doc.authoritativeLabel == link.corp_name && x.doc.corporateNameSource != null && x.doc.corporateNameSource.Contains("http://archivesspace.ecu.edu/resources/" + link.resource_id) && x.doc.archivesSpaceUri == "http://archivesspace.ecu.edu/agents/agent_corporate_entity/" + link.agent_corporate_entity_id);
                     }
 
                     if (found != null)
@@ -195,11 +196,11 @@ namespace AuthorityCouch.Controllers
                 {
                     if (link.role_id == 878)
                     {
-                        found = authority.Find(x => x.doc.authoritativeLabel == link.person_name && x.doc.personalNameCreator.Contains("http://archivesspace.ecu.edu/resources/" + link.resource_id) && x.doc.archivesSpaceUri == "http://archivesspace.ecu.edu/agents/agent_person/" + link.agent_person_id);
+                        found = authority.Find(x => x.doc.authoritativeLabel == link.person_name && x.doc.personalNameCreator != null && x.doc.personalNameCreator.Contains("http://archivesspace.ecu.edu/resources/" + link.resource_id) && x.doc.archivesSpaceUri == "http://archivesspace.ecu.edu/agents/agent_person/" + link.agent_person_id);
                     }
                     else if (link.role_id == 879)
                     {
-                        found = authority.Find(x => x.doc.authoritativeLabel == link.person_name && x.doc.personalNameSource.Contains("http://archivesspace.ecu.edu/resources/" + link.resource_id) && x.doc.archivesSpaceUri == "http://archivesspace.ecu.edu/agents/agent_person/" + link.agent_person_id);
+                        found = authority.Find(x => x.doc.authoritativeLabel == link.person_name && x.doc.personalNameSource != null && x.doc.personalNameSource.Contains("http://archivesspace.ecu.edu/resources/" + link.resource_id) && x.doc.archivesSpaceUri == "http://archivesspace.ecu.edu/agents/agent_person/" + link.agent_person_id);
                     }
 
                     if (found != null)
@@ -213,11 +214,11 @@ namespace AuthorityCouch.Controllers
                 {
                     if (link.role_id == 878)
                     {
-                        found = authority.Find(x => x.doc.authoritativeLabel == link.family_name && x.doc.familyNameCreator.Contains("http://archivesspace.ecu.edu/resources/" + link.resource_id) && x.doc.archivesSpaceUri == "http://archivesspace.ecu.edu/agents/agent_family/" + link.agent_family_id);
+                        found = authority.Find(x => x.doc.authoritativeLabel == link.family_name && x.doc.familyNameCreator != null && x.doc.familyNameCreator.Contains("http://archivesspace.ecu.edu/resources/" + link.resource_id) && x.doc.archivesSpaceUri == "http://archivesspace.ecu.edu/agents/agent_family/" + link.agent_family_id);
                     }
                     else if (link.role_id == 879)
                     {
-                        found = authority.Find(x => x.doc.authoritativeLabel == link.family_name && x.doc.familyNameSource.Contains("http://archivesspace.ecu.edu/resources/" + link.resource_id) && x.doc.archivesSpaceUri == "http://archivesspace.ecu.edu/agents/agent_family/" + link.agent_family_id);
+                        found = authority.Find(x => x.doc.authoritativeLabel == link.family_name && x.doc.familyNameSource != null && x.doc.familyNameSource.Contains("http://archivesspace.ecu.edu/resources/" + link.resource_id) && x.doc.archivesSpaceUri == "http://archivesspace.ecu.edu/agents/agent_family/" + link.agent_family_id);
                     }
 
                     if (found != null)
