@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Configuration;
+using System.Web.Mvc;
 
 namespace AuthorityCouch.Controllers
 {
@@ -7,7 +8,7 @@ namespace AuthorityCouch.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            return Redirect("https://lib.ecu.edu/central/Login?ReturnTo=authority&ReturnUrl=" + Request.QueryString["ReturnUrl"]);
+            return Redirect(ConfigurationManager.AppSettings["LoginUrl"] + Request.QueryString["ReturnUrl"]);
         }
     }
 }
