@@ -1,7 +1,8 @@
-﻿using System;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
+using System;
+using System.Configuration;
 
 namespace AuthorityCouch.App_Start
 {
@@ -17,7 +18,7 @@ namespace AuthorityCouch.App_Start
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = CentralAuthentication.ApplicationCookie,
-                CookieDomain = ".ecu.edu",
+                CookieDomain = ConfigurationManager.AppSettings["CookieDomain"],
                 LoginPath = new PathString("/Login"),
                 Provider = new CookieAuthenticationProvider(),
                 CookieName = "CentralAuthenticationCookie",

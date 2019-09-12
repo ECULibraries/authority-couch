@@ -30,7 +30,7 @@
                 </li>
                 <li class="nav-item"><a href="@Url.Action("Name", "Export")" class="nav-link">Export</a></li>
                 <li>
-                    <a href="https://lib.ecu.edu/central/logout" class="nav-link">Logout</a>
+                    <a href="@System.Configuration.ConfigurationManager.AppSettings["LogoutUrl"]" class="nav-link">Logout</a>
                 </li>
                 <li class="nav-item">
                     @using (Html.BeginForm("Name", "Search"))
