@@ -89,22 +89,25 @@ namespace AuthorityCouch.Repositories
             //    .Where("resource_id IS NOT NULL")
             //    .OrderBy("person_name, family_name, corp_name");
 
-            var personSql = Sql.Builder.Select("linked_agents_rlshp.agent_person_id, linked_agents_rlshp.role_id, linked_agents_rlshp.resource_id, name_person.sort_name AS person_name, authority_id")
+            var personSql = Sql.Builder.Select("linked_agents_rlshp.agent_person_id, linked_agents_rlshp.role_id, linked_agents_rlshp.resource_id, name_person.sort_name AS person_name, authority_id, resource.repo_id")
                 .From("archivesspace.linked_agents_rlshp")
                 .InnerJoin("archivesspace.name_person").On("name_person.agent_person_id = linked_agents_rlshp.agent_person_id")
                 .LeftJoin("archivesspace.name_authority_id").On("name_authority_id.name_person_id = name_person.id")
+                .LeftJoin("archivesspace.resource").On("resource.id = linked_agents_rlshp.resource_id")
                 .Where("resource_id IS NOT NULL").OrderBy("person_name");
 
-            var familySql = Sql.Builder.Select("linked_agents_rlshp.agent_family_id, linked_agents_rlshp.role_id, linked_agents_rlshp.resource_id, name_family.sort_name AS family_name, authority_id")
+            var familySql = Sql.Builder.Select("linked_agents_rlshp.agent_family_id, linked_agents_rlshp.role_id, linked_agents_rlshp.resource_id, name_family.sort_name AS family_name, authority_id, resource.repo_id")
                 .From("archivesspace.linked_agents_rlshp")
                 .InnerJoin("archivesspace.name_family").On("name_family.agent_family_id = linked_agents_rlshp.agent_family_id")
                 .LeftJoin("archivesspace.name_authority_id").On("name_authority_id.name_family_id = name_family.id")
+                .LeftJoin("archivesspace.resource").On("resource.id = linked_agents_rlshp.resource_id")
                 .Where("resource_id IS NOT NULL").OrderBy("family_name");
 
-            var corpSql = Sql.Builder.Select("linked_agents_rlshp.agent_corporate_entity_id, linked_agents_rlshp.role_id, linked_agents_rlshp.resource_id, name_corporate_entity.sort_name AS corp_name, authority_id")
+            var corpSql = Sql.Builder.Select("linked_agents_rlshp.agent_corporate_entity_id, linked_agents_rlshp.role_id, linked_agents_rlshp.resource_id, name_corporate_entity.sort_name AS corp_name, authority_id, resource.repo_id")
                 .From("archivesspace.linked_agents_rlshp")
                 .InnerJoin("archivesspace.name_corporate_entity").On("name_corporate_entity.agent_corporate_entity_id = linked_agents_rlshp.agent_corporate_entity_id")
                 .LeftJoin("archivesspace.name_authority_id").On("name_authority_id.name_corporate_entity_id = name_corporate_entity.id")
+                .LeftJoin("archivesspace.resource").On("resource.id = linked_agents_rlshp.resource_id")
                 .Where("resource_id IS NOT NULL").OrderBy("corp_name");
 
             using (var db = Connection)
@@ -122,9 +125,10 @@ namespace AuthorityCouch.Repositories
         public List<SubjectGroup> GetLinkedSubjects()
         {
             var subjectSql = Sql.Builder
-                .Select("resource_id, subject.id, subject.title AS subject, authority_id, (select value from archivesspace.enumeration_value where id = (select term_type_id from archivesspace.term WHERE id = (select term_id from archivesspace.subject_term where subject_id = subject.id))) AS type")
+                .Select("resource_id, resource.repo_id, subject.id, subject.title AS subject, authority_id, (select value from archivesspace.enumeration_value where id = (select term_type_id from archivesspace.term WHERE id = (select term_id from archivesspace.subject_term where subject_id = subject.id))) AS type")
                 .From("subject_rlshp")
                 .LeftJoin("subject").On("subject.id = subject_rlshp.subject_id")
+                .LeftJoin("archivesspace.resource").On("resource.id = subject_rlshp.resource_id")
                 //.LeftJoin("subject_term").On("subject_term.subject_id = subject_rlshp.subject_id")
                 //.LeftJoin("term").On("term.id = subject_term.id")
                 //.LeftJoin("enumeration_value").On("enumeration_value.id = term.term_type_id")

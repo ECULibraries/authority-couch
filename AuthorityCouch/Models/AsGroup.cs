@@ -13,6 +13,7 @@ namespace AuthorityCouch.Models
         public string family_name { get; set; }
         public string corp_name { get; set; }
         public string authority_id { get; set; }
+        public int repo_id { get; set; }
     }
 
     public class SubjectGroup
@@ -22,5 +23,6 @@ namespace AuthorityCouch.Models
         public int id { get; set; }
         public int resource_id { get; set; }
         public string authority_id { get; set; }
+        public int repo_id { get; set; }
     }
 }

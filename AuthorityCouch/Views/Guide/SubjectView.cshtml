@@ -45,7 +45,7 @@
         <br />
         <br />
     }
-    var geographic = Model.Subject.Results.Docs.FindAll(x => x.geographic != null);
+    var geographic = Model.Subject.Results.Docs.FindAll(x => x.geographic != null && x.geographic.Contains(ViewBag.ArchivesSpaceUrl));
     if (geographic.Count > 0)
     {
         <table class="table table-striped">

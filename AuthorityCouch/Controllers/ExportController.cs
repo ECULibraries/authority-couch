@@ -167,13 +167,14 @@ namespace AuthorityCouch.Controllers
 
             var csv = new StringBuilder();
 
-            csv.AppendLine("resource_id,role_id,agent_person_id,person_name,agent_family_id,family_name,agent_corporate_entity_id,corp_name,found,auth_id_exists");
+            csv.AppendLine("resource_id,repo,role_id,agent_person_id,person_name,agent_family_id,family_name,agent_corporate_entity_id,corp_name,found,auth_id_exists");
 
             foreach (var link in agentLinks)
             {
                 Row found = null;
                 var match = false;
                 var authMatch = false;
+                var repo = link.repo_id == 2 ? "Archives" : link.repo_id == 3 ? "Manuscripts" : "Laupus";
                 if (link.agent_corporate_entity_id != null)
                 {
                     if (link.role_id == 878)
@@ -190,7 +191,7 @@ namespace AuthorityCouch.Controllers
                         match = true;
                         authMatch = found.doc._id == link.authority_id;
                     }
-                    csv.AppendLine($"{link.resource_id},{link.role_id},{link.agent_person_id},\"{link.person_name}\",{link.agent_family_id},\"{link.family_name}\",{link.agent_corporate_entity_id},\"{link.corp_name}\",{match},{authMatch}");
+                    csv.AppendLine($"{link.resource_id},{repo},{link.role_id},{link.agent_person_id},\"{link.person_name}\",{link.agent_family_id},\"{link.family_name}\",{link.agent_corporate_entity_id},\"{link.corp_name}\",{match},{authMatch}");
                 }
                 else if (link.agent_person_id != null)
                 {
@@ -208,7 +209,7 @@ namespace AuthorityCouch.Controllers
                         match = true;
                         authMatch = found.doc._id == link.authority_id;
                     }
-                    csv.AppendLine($"{link.resource_id},{link.role_id},{link.agent_person_id},\"{link.person_name}\",{link.agent_family_id},\"{link.family_name}\",{link.agent_corporate_entity_id},\"{link.corp_name}\",{match},{authMatch}");
+                    csv.AppendLine($"{link.resource_id},{repo},{link.role_id},{link.agent_person_id},\"{link.person_name}\",{link.agent_family_id},\"{link.family_name}\",{link.agent_corporate_entity_id},\"{link.corp_name}\",{match},{authMatch}");
                 }
                 else if(link.agent_family_id != null)
                 {
@@ -226,7 +227,7 @@ namespace AuthorityCouch.Controllers
                         match = true;
                         authMatch = found.doc._id == link.authority_id;
                     }
-                    csv.AppendLine($"{link.resource_id},{link.role_id},{link.agent_person_id},\"{link.person_name}\",{link.agent_family_id},\"{link.family_name}\",{link.agent_corporate_entity_id},\"{link.corp_name}\",{match},{authMatch}");
+                    csv.AppendLine($"{link.resource_id},{repo},{link.role_id},{link.agent_person_id},\"{link.person_name}\",{link.agent_family_id},\"{link.family_name}\",{link.agent_corporate_entity_id},\"{link.corp_name}\",{match},{authMatch}");
                 }
             }
 
@@ -405,7 +406,7 @@ namespace AuthorityCouch.Controllers
 
             var csv = new StringBuilder();
 
-            csv.AppendLine("sid,rid,subject,type,found,auth_id_exists");
+            csv.AppendLine("sid,rid,repo,subject,type,found,auth_id_exists");
 
             foreach (var link in subjectLinks)
             {
@@ -413,7 +414,7 @@ namespace AuthorityCouch.Controllers
                 Row found;
                 var match = false;
                 var authMatch = false;
-                // match = authority.Find(x => x.doc.authoritativeLabel == link.subject);
+                var repo = link.repo_id == 2 ? "Archives" : link.repo_id == 3 ? "Manuscripts" : "Laupus";
                 if (link.type == "topical")
                 {
                     found = authority.Find(x => x.doc.authoritativeLabel == link.subject && x.doc.topic.Contains("http://archivesspace.ecu.edu/resources/" + link.resource_id) && link.type == "topical");
@@ -422,7 +423,7 @@ namespace AuthorityCouch.Controllers
                         match = true;
                         authMatch = link.authority_id == found.doc._id;
                     }
-                    csv.AppendLine($"{link.id},{link.resource_id},\"{link.subject}\",{link.type},{match},{authMatch}");
+                    csv.AppendLine($"{link.id},{link.resource_id},{repo},\"{link.subject}\",{link.type},{match},{authMatch}");
                 }
                 else if (link.type == "geographic")
                 {
@@ -432,7 +433,7 @@ namespace AuthorityCouch.Controllers
                         match = true;
                         authMatch = link.authority_id == found.doc._id;
                     }
-                    csv.AppendLine($"{link.id},{link.resource_id},\"{link.subject}\",{link.type},{match},{authMatch}");
+                    csv.AppendLine($"{link.id},{link.resource_id},{repo},\"{link.subject}\",{link.type},{match},{authMatch}");
                 }
                 else if (link.type == "personal")
                 {
@@ -442,7 +443,7 @@ namespace AuthorityCouch.Controllers
                         match = true;
                         authMatch = link.authority_id == found.doc._id;
                     }
-                    csv.AppendLine($"{link.id},{link.resource_id},\"{link.subject}\",{link.type},{match},{authMatch}");
+                    csv.AppendLine($"{link.id},{link.resource_id},{repo},\"{link.subject}\",{link.type},{match},{authMatch}");
                 }
                 else if (link.type == "family")
                 {
@@ -452,7 +453,7 @@ namespace AuthorityCouch.Controllers
                         match = true;
                         authMatch = link.authority_id == found.doc._id;
                     }
-                    csv.AppendLine($"{link.id},{link.resource_id},\"{link.subject}\",{link.type},{match},{authMatch}");
+                    csv.AppendLine($"{link.id},{link.resource_id},{repo},\"{link.subject}\",{link.type},{match},{authMatch}");
                 }
                 else if (link.type == "corporate")
                 {
@@ -462,7 +463,7 @@ namespace AuthorityCouch.Controllers
                         match = true;
                         authMatch = link.authority_id == found.doc._id;
                     }
-                    csv.AppendLine($"{link.id},{link.resource_id},\"{link.subject}\",{link.type},{match},{authMatch}");
+                    csv.AppendLine($"{link.id},{link.resource_id},{repo},\"{link.subject}\",{link.type},{match},{authMatch}");
                 }
                 else if (link.type == "meeting")
                 {
@@ -472,7 +473,7 @@ namespace AuthorityCouch.Controllers
                         match = true;
                         authMatch = link.authority_id == found.doc._id;
                     }
-                    csv.AppendLine($"{link.id},{link.resource_id},\"{link.subject}\",{link.type},{match},{authMatch}");
+                    csv.AppendLine($"{link.id},{link.resource_id},{repo},\"{link.subject}\",{link.type},{match},{authMatch}");
                 }
                 else if (link.type == "uniform_title")
                 {
@@ -482,11 +483,11 @@ namespace AuthorityCouch.Controllers
                         match = true;
                         authMatch = link.authority_id == found.doc._id;
                     }
-                    csv.AppendLine($"{link.id},{link.resource_id},\"{link.subject}\",{link.type},{match},{authMatch}");
+                    csv.AppendLine($"{link.id},{link.resource_id},{repo},\"{link.subject}\",{link.type},{match},{authMatch}");
                 }
                 else
                 {
-                    csv.AppendLine($"{link.id},{link.resource_id},\"{link.subject}\",{link.type},{match},{authMatch}");
+                    csv.AppendLine($"{link.id},{link.resource_id},{repo},\"{link.subject}\",{link.type},{match},{authMatch}");
                 }
             }
 
