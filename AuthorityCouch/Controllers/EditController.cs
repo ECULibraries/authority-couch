@@ -120,7 +120,7 @@ namespace AuthorityCouch.Controllers
             {
                 fullDoc.substrings = evm.Doc.substrings;
 
-                if (evm.NewLabel != null && evm.NewUri != null)
+                if (evm.NewLabel != null) //&& evm.NewUri != null
                 {
                     if (fullDoc.substrings == null) { fullDoc.substrings = new List<Substring>(); }
                     fullDoc.substrings.Add(new Substring(evm.NewLabel, evm.NewUri));
