@@ -8,7 +8,7 @@ namespace AuthorityCouch.Controllers
         public ActionResult Name()
         {
 
-            //AddAuths();
+            //ImportNameAuths();
 
             return View();
         }

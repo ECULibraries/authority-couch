@@ -242,7 +242,26 @@ namespace AuthorityCouch.Controllers
                 request.AddJsonBody(json);
                 _client.Execute(request);
             }
+        }
 
+        public void ImportNameAuths()
+        {
+            var nm = new PersonName();
+            for (var i = 0; i < nm.Data3.Count; i++)
+            {
+                var request = new RestRequest($"name_authority/_find", Method.POST, DataFormat.Json);
+                request.AddJsonBody(new { selector = new { authoritativeLabel = nm.Data3[i][0] } });
+                var doc = JsonConvert.DeserializeObject<CouchDocs>(_client.Execute(request).Content);
+
+                request = new RestRequest($"name_authority/{doc.Docs[0]._id}/", Method.PUT, DataFormat.Json);
+
+                doc.Docs[0].authoritativeLabel = nm.Data3[i][1];
+                doc.Docs[0].externalAuthorityUri = nm.Data3[i][2];
+                
+                var json = JsonConvert.SerializeObject(doc.Docs[0], new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                request.AddJsonBody(json);
+                _client.Execute(request);
+            }
         }
 
         public void ImportGeographic()
