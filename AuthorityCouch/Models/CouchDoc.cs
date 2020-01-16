@@ -54,6 +54,9 @@ namespace AuthorityCouch.Models
         public List<string> familyNameSubject { get; set; }
         public List<string> corporateNameSubject { get; set; }
 
+        public List<DcEntry> dcName { get; set; }
+        public List<DcEntry> dcSubject { get; set; }
+
         public bool CanBeDeleted()
         {
             if (topic == null && geographic == null && familyNameCreator == null && familyNameSource == null && familyNameSubject == null &&
@@ -77,5 +80,11 @@ namespace AuthorityCouch.Models
             authoritativeLabel = label;
             externalAuthorityUri = uri;
         }
+    }
+
+    public class DcEntry
+    {
+        public string type { get; set; }
+        public string uri { get; set; }
     }
 }

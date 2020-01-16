@@ -160,6 +160,7 @@
     <Compile Include="Controllers\AssignController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CreateController.cs" />
+    <Compile Include="Controllers\DcObjectController.cs" />
     <Compile Include="Controllers\DeleteController.cs" />
     <Compile Include="Controllers\EditController.cs" />
     <Compile Include="Controllers\ExportController.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="Models\AsSubjectTerm.cs" />
     <Compile Include="Models\AsTerm.cs" />
     <Compile Include="Models\CouchDoc.cs" />
+    <Compile Include="Models\DcObjectViewModel.cs" />
     <Compile Include="Models\EditViewModel.cs" />
     <Compile Include="Models\ExportViewModel.cs" />
     <Compile Include="Models\GuideViewModel.cs" />
@@ -311,6 +313,7 @@
     <Content Include="Views\Export\Subject.cshtml" />
     <Content Include="Views\Guide\NameCheck.cshtml" />
     <Content Include="Views\Guide\SubjectCheck.cshtml" />
+    <Content Include="Views\DcObject\NameView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

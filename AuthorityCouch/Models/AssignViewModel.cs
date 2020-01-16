@@ -8,5 +8,6 @@ namespace AuthorityCouch.Models
         public Doc Doc { get; set; }
         public IEnumerable<SelectListItem> AsResources { get; set; }
         public string NewAsResource { get; set; }
+        public string NewDcResource { get; set; }
     }
 }

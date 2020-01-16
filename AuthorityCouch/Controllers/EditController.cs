@@ -66,6 +66,15 @@ namespace AuthorityCouch.Controllers
 
             SaveNameDoc(fullDoc);
 
+            TempData["Message"] = "Authority saved";
+
+            if (fullDoc.archivesSpaceUri != null)
+            {
+                AsRepo.UpdateAsName(int.Parse(fullDoc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_person/", "")),
+                    fullDoc.authoritativeLabel);
+                TempData["Message"] += ", AS name updated";
+            }
+
             return RedirectToAction("Name", new { id = evm.Doc._id });
         }
 
@@ -128,6 +137,15 @@ namespace AuthorityCouch.Controllers
             }
 
             SaveSubjectDoc(fullDoc);
+
+            TempData["Message"] = "Authority saved";
+
+            if (fullDoc.archivesSpaceUri != null)
+            {
+                AsRepo.UpdateAsSubject(int.Parse(fullDoc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/subjects/", "")),
+                    fullDoc.authoritativeLabel);
+                TempData["Message"] += ", AS subject updated";
+            }
 
             return RedirectToAction("Subject", new { id = evm.Doc._id });
         }

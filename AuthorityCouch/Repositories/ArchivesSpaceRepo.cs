@@ -140,6 +140,22 @@ namespace AuthorityCouch.Repositories
             }
         }
 
+        public void UpdateAsSubject(int id, string value)
+        {
+            using (var db = Connection)
+            {
+                db.Update("subject", "id", new {title = value}, id);
+            }
+        }
+
+        public void UpdateAsName(int id, string value)
+        {
+            using (var db = Connection)
+            {
+                db.Update("name_person", "agent_person_id", new { primary_name = value, sort_name = value }, id);
+            }
+        }
+
         public void CreateSubjectRelationship()
         {
             var meeting = new Meeting();

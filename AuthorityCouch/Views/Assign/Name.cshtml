@@ -1,4 +1,5 @@
-﻿@model AuthorityCouch.Models.AssignViewModel
+﻿@using System.Configuration
+@model AuthorityCouch.Models.AssignViewModel
 @{
     ViewBag.Title = "Assign";
 }
@@ -14,20 +15,98 @@
 }
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-5">
+        @using (Html.BeginForm("AssignDcName", "Assign"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.Doc._id)
+
+            <h5>Assign to Digital Collections resource</h5>
+            <hr />
+            <div class="form-group">
+                @Html.TextBoxFor(m => m.NewDcResource, new { @class = "form-control col-md-6", placeholder = "Enter PID" })
+            </div>
+
+            <button type="button" class="btn btn-outline-primary mt-2" data-toggle="modal" data-target="#dcPersonalModal">
+                PersonalName (100)
+            </button>
+            <button type="button" class="btn btn-outline-danger mt-2" data-toggle="modal" data-target="#dcCorporateModal">
+                CorporateName (110)
+            </button>
+
+            <div class="modal fade" id="dcPersonalModal" tabindex="-1" role="dialog" aria-labelledby="dcPersonalModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="dcPersonalModalLabel">Personal Name</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="submit" value="PersonalNameCreator" class="btn btn-outline-primary btn-block" name="dcButton" />
+                            <input type="submit" value="PersonalNameContributor" class="btn btn-outline-primary btn-block" name="dcButton" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="dcCorporateModal" tabindex="-1" role="dialog" aria-labelledby="dcCorporateModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="dcCorporateModalLabel">Corporate Name</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <input type="submit" value="CorporateNameCreator" class="btn btn-outline-danger btn-block" name="dcButton" />
+                            <input type="submit" value="CorporateNameContributor" class="btn btn-outline-danger btn-block" name="dcButton" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <hr />
+        <h5>Existing assignments</h5>
+
+        <ul class="list-unstyled">
+            @if (Model.Doc.dcName != null)
+            {
+                foreach (var item in Model.Doc.dcName)
+                {
+                    <li>
+                        <a href="@item.uri" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
+                        <a href="@Url.Action("NameView", "DcObject", new {id = @item.uri.Replace(ConfigurationManager.AppSettings["DigitalCollectionsUrl"], "")})">@item.uri</a>
+                        <span class="badge badge-pill badge-secondary">@item.type</span>
+                        <a href="@Url.Action("RemoveNameDcResource", "Assign", new {id = Model.Doc._id, type = item.type, uri = item.uri})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+    <div class="col-md-7">
         @using (Html.BeginForm("AssignNameAsResource", "Assign"))
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.Doc._id)
 
             <h5>Assign to ArchivesSpace resource</h5>
-            <hr />
+            <hr/>
             <div class="form-group">
-                @Html.TextBoxFor(m => m.NewAsResource, new { @class = "form-control", list = "asList", placeholder = "Search guide title..." })
+                @Html.TextBoxFor(m => m.NewAsResource, new {@class = "form-control", list = "asList", placeholder = "Search guide title..."})
                 <datalist id="asList">
                     @foreach (var subject in Model.AsResources)
                     {
-                        <option value="@subject.Text" />
+                        <option value="@subject.Text"/>
                     }
                 </datalist>
             </div>
@@ -59,8 +138,8 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <input type="submit" value="PersonalNameCreator" class="btn btn-outline-primary btn-block" name="asButton" />
-                            <input type="submit" value="PersonalNameSource" class="btn btn-outline-primary btn-block" name="asButton" />
+                            <input type="submit" value="PersonalNameCreator" class="btn btn-outline-primary btn-block" name="asButton"/>
+                            <input type="submit" value="PersonalNameSource" class="btn btn-outline-primary btn-block" name="asButton"/>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -80,8 +159,8 @@
                         </div>
                         <div class="modal-body">
 
-                            <input type="submit" value="FamilyNameCreator" class="btn btn-outline-success btn-block" name="asButton" />
-                            <input type="submit" value="FamilyNameSource" class="btn btn-outline-success btn-block" name="asButton" />
+                            <input type="submit" value="FamilyNameCreator" class="btn btn-outline-success btn-block" name="asButton"/>
+                            <input type="submit" value="FamilyNameSource" class="btn btn-outline-success btn-block" name="asButton"/>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -101,8 +180,8 @@
                         </div>
                         <div class="modal-body">
 
-                            <input type="submit" value="CorporateNameCreator" class="btn btn-outline-danger btn-block" name="asButton" />
-                            <input type="submit" value="CorporateNameSource" class="btn btn-outline-danger btn-block" name="asButton" />
+                            <input type="submit" value="CorporateNameCreator" class="btn btn-outline-danger btn-block" name="asButton"/>
+                            <input type="submit" value="CorporateNameSource" class="btn btn-outline-danger btn-block" name="asButton"/>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -111,92 +190,93 @@
                 </div>
             </div>
         }
+        <hr/>
+        <h5>Existing assignments</h5>
+
+        <ul class="list-unstyled">
+            @if (Model.Doc.personalNameCreator != null)
+            {
+                foreach (var item in Model.Doc.personalNameCreator)
+                {
+                    <li>
+                        @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
+                        <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
+                        <a href="@Url.Action("NameView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
+                        <span class="badge badge-pill badge-secondary">personalNameCreator</span>
+                        <a href="@Url.Action("RemoveNameAsResource", "Assign", new {id = Model.Doc._id, type = "personalNameCreator", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
+                    </li>
+                }
+            }
+            @if (Model.Doc.personalNameSource != null)
+            {
+                foreach (var item in Model.Doc.personalNameSource)
+                {
+                    <li>
+                        @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
+                        <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
+                        <a href="@Url.Action("NameView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
+                        <span class="badge badge-pill badge-secondary">personalNameSource</span>
+                        <a href="@Url.Action("RemoveNameAsResource", "Assign", new {id = Model.Doc._id, type = "personalNameSource", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
+                    </li>
+                }
+            }
+            @if (Model.Doc.familyNameCreator != null)
+            {
+                foreach (var item in Model.Doc.familyNameCreator)
+                {
+                    <li>
+                        @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
+                        <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
+                        <a href="@Url.Action("NameView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
+                        <span class="badge badge-pill badge-secondary">familyNameCreator</span>
+                        <a href="@Url.Action("RemoveNameAsResource", "Assign", new {id = Model.Doc._id, type = "familyNameCreator", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
+                    </li>
+                }
+            }
+            @if (Model.Doc.familyNameSource != null)
+            {
+                foreach (var item in Model.Doc.familyNameSource)
+                {
+                    <li>
+                        @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
+                        <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
+                        <a href="@Url.Action("NameView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
+                        <span class="badge badge-pill badge-secondary">familyNameSource</span>
+                        <a href="@Url.Action("RemoveNameAsResource", "Assign", new {id = Model.Doc._id, type = "familyNameSource", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
+                    </li>
+                }
+            }
+            @if (Model.Doc.corporateNameCreator != null)
+            {
+                foreach (var item in Model.Doc.corporateNameCreator)
+                {
+                    <li>
+                        @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
+                        <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
+                        <a href="@Url.Action("NameView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
+                        <span class="badge badge-pill badge-secondary">corporateNameCreator</span>
+                        <a href="@Url.Action("RemoveNameAsResource", "Assign", new {id = Model.Doc._id, type = "corporateNameCreator", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
+                    </li>
+                }
+            }
+            @if (Model.Doc.corporateNameSource != null)
+            {
+                foreach (var item in Model.Doc.corporateNameSource)
+                {
+                    <li>
+                        @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
+                        <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
+                        <a href="@Url.Action("NameView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
+                        <span class="badge badge-pill badge-secondary">corporateNameSource</span>
+                        <a href="@Url.Action("RemoveNameAsResource", "Assign", new {id = Model.Doc._id, type = "corporateNameSource", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
+                    </li>
+                }
+            }
+
+        </ul>
     </div>
 </div>
 
-<hr />
-<h5>Existing assignments</h5>
 
-<ul class="list-unstyled">
-    @if (Model.Doc.personalNameCreator != null)
-    {
-        foreach (var item in Model.Doc.personalNameCreator)
-        {
-            <li>
-                @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
-                <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
-                <a href="@Url.Action("NameView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
-                <span class="badge badge-pill badge-secondary">personalNameCreator</span>
-                <a href="@Url.Action("RemoveNameAsResource", "Assign", new { id = Model.Doc._id, type = "personalNameCreator", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
-            </li>
-        }
-    }
-    @if (Model.Doc.personalNameSource != null)
-    {
-        foreach (var item in Model.Doc.personalNameSource)
-        {
-            <li>
-                @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
-                <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
-                <a href="@Url.Action("NameView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
-                <span class="badge badge-pill badge-secondary">personalNameSource</span>
-                <a href="@Url.Action("RemoveNameAsResource", "Assign", new { id = Model.Doc._id, type = "personalNameSource", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
-            </li>
-        }
-    }
-    @if (Model.Doc.familyNameCreator != null)
-    {
-        foreach (var item in Model.Doc.familyNameCreator)
-        {
-            <li>
-                @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
-                <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
-                <a href="@Url.Action("NameView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
-                <span class="badge badge-pill badge-secondary">familyNameCreator</span>
-                <a href="@Url.Action("RemoveNameAsResource", "Assign", new { id = Model.Doc._id, type = "familyNameCreator", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
-            </li>
-        }
-    }
-    @if (Model.Doc.familyNameSource != null)
-    {
-        foreach (var item in Model.Doc.familyNameSource)
-        {
-            <li>
-                @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
-                <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
-                <a href="@Url.Action("NameView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
-                <span class="badge badge-pill badge-secondary">familyNameSource</span>
-                <a href="@Url.Action("RemoveNameAsResource", "Assign", new { id = Model.Doc._id, type = "familyNameSource", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
-            </li>
-        }
-    }
-    @if (Model.Doc.corporateNameCreator != null)
-    {
-        foreach (var item in Model.Doc.corporateNameCreator)
-        {
-            <li>
-                @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
-                <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
-                <a href="@Url.Action("NameView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
-                <span class="badge badge-pill badge-secondary">corporateNameCreator</span>
-                <a href="@Url.Action("RemoveNameAsResource", "Assign", new {id = Model.Doc._id, type = "corporateNameCreator", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
-            </li>
-        }
-    }
-    @if (Model.Doc.corporateNameSource != null)
-    {
-        foreach (var item in Model.Doc.corporateNameSource)
-        {
-            <li>
-                @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
-                <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
-                <a href="@Url.Action("NameView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
-                <span class="badge badge-pill badge-secondary">corporateNameSource</span>
-                <a href="@Url.Action("RemoveNameAsResource", "Assign", new {id = Model.Doc._id, type = "corporateNameSource", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
-            </li>
-        }
-    }
-
-</ul>
 
 

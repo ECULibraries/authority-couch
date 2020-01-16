@@ -114,6 +114,47 @@ namespace AuthorityCouch.Controllers
 
         }
 
+        [HttpPost]
+        public ActionResult AssignDcName(AssignViewModel avm, string dcButton)
+        {
+            int parsedPid;
+            if (avm.NewDcResource == null)
+            {
+                TempData["Message"] = "No PID supplied";
+            }
+            else if (!int.TryParse(avm.NewDcResource, out parsedPid))
+            {
+                TempData["Message"] = "PID must be a number";
+            }
+            else
+            {
+                var fullDoc = GetNameDocByUuid(avm.Doc._id);
+                if (fullDoc.dcName == null) { fullDoc.dcName = new List<DcEntry>(); }
+
+                var entry = new DcEntry { type = dcButton, uri = ConfigurationManager.AppSettings["DigitalCollectionsUrl"] + avm.NewDcResource };
+                fullDoc.dcName.Add(entry);
+
+                SaveNameDoc(fullDoc);
+                TempData["Message"] = "Resource Added";
+            }
+
+            return RedirectToAction("Name", new { id = avm.Doc._id });
+        }
+
+        public ActionResult RemoveNameDcResource(string id, string type, string uri)
+        {
+            var fullDoc = GetNameDocByUuid(id);
+            fullDoc.dcName.Remove(fullDoc.dcName.Find(x => x.type == type && x.uri == uri));
+            if(fullDoc.dcName.Count == 0) {  fullDoc.dcName = null; }
+
+            SaveNameDoc(fullDoc);
+            TempData["Message"] = "ArchivesSpace Resource Removed";
+            return RedirectToAction("Name", new { id });
+
+        }
+
+        //
+
         public ActionResult Subject(string id)
         {
             var avm = new AssignViewModel();
