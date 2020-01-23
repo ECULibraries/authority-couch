@@ -70,8 +70,21 @@ namespace AuthorityCouch.Controllers
 
             if (fullDoc.archivesSpaceUri != null)
             {
-                AsRepo.UpdateAsName(int.Parse(fullDoc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_person/", "")),
-                    fullDoc.authoritativeLabel);
+                if (fullDoc.archivesSpaceUri.Contains("agent_person"))
+                {
+                    AsRepo.UpdateAsName(int.Parse(fullDoc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_person/", "")),
+                        fullDoc.authoritativeLabel);
+                }
+                else if (fullDoc.archivesSpaceUri.Contains("agent_corporate_entity"))
+                {
+                    AsRepo.UpdateAsCorporate(int.Parse(fullDoc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_corporate_entity/", "")),
+                        fullDoc.authoritativeLabel);
+                }
+                else if (fullDoc.archivesSpaceUri.Contains("agent_family"))
+                {
+                    AsRepo.UpdateAsFamily(int.Parse(fullDoc.archivesSpaceUri.Replace("http://archivesspace.ecu.edu/agents/agent_family/", "")),
+                        fullDoc.authoritativeLabel);
+                }
                 TempData["Message"] += ", AS name updated";
             }
 

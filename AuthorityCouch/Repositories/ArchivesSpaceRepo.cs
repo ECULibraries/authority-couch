@@ -156,6 +156,22 @@ namespace AuthorityCouch.Repositories
             }
         }
 
+        public void UpdateAsFamily(int id, string value)
+        {
+            using (var db = Connection)
+            {
+                db.Update("name_family", "agent_family_id", new { family_name = value, sort_name = value }, id);
+            }
+        }
+
+        public void UpdateAsCorporate(int id, string value)
+        {
+            using (var db = Connection)
+            {
+                db.Update("name_corporate_entity", "agent_corporate_entity_id", new { primary_name = value, sort_name = value }, id);
+            }
+        }
+
         public void CreateSubjectRelationship()
         {
             var meeting = new Meeting();
