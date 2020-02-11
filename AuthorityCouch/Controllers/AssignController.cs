@@ -132,6 +132,13 @@ namespace AuthorityCouch.Controllers
                 if (fullDoc.dcName == null) { fullDoc.dcName = new List<DcEntry>(); }
 
                 var entry = new DcEntry { type = dcButton, uri = ConfigurationManager.AppSettings["DigitalCollectionsUrl"] + avm.NewDcResource };
+
+                if(avm.RelatorLabel != null && avm.RelatorUri != null)
+                {
+                    entry.relator_uri = avm.RelatorUri;
+                    entry.relator_label = avm.RelatorLabel;
+                }
+
                 fullDoc.dcName.Add(entry);
 
                 SaveNameDoc(fullDoc);

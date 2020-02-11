@@ -61,7 +61,7 @@ namespace AuthorityCouch.Models
         {
             if (topic == null && geographic == null && familyNameCreator == null && familyNameSource == null && familyNameSubject == null &&
                 corporateNameCreator == null && corporateNameSource == null && corporateNameSubject == null &&
-                personalNameCreator == null && personalNameSource == null && personalNameSubject == null && meeting == null && uniformTitle == null)
+                personalNameCreator == null && personalNameSource == null && personalNameSubject == null && meeting == null && uniformTitle == null && dcName == null && dcSubject == null)
             {
                 return true;
             }
@@ -85,6 +85,8 @@ namespace AuthorityCouch.Models
     public class DcEntry
     {
         public string type { get; set; }
+        public string relator_uri { get; set; }
+        public string relator_label { get; set; }
         public string uri { get; set; }
     }
 }

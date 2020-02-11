@@ -9,5 +9,7 @@ namespace AuthorityCouch.Models
         public IEnumerable<SelectListItem> AsResources { get; set; }
         public string NewAsResource { get; set; }
         public string NewDcResource { get; set; }
+        public string RelatorUri { get; set; }
+        public string RelatorLabel { get; set; }
     }
 }
