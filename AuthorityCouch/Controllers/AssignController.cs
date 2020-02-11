@@ -155,7 +155,7 @@ namespace AuthorityCouch.Controllers
             if(fullDoc.dcName.Count == 0) {  fullDoc.dcName = null; }
 
             SaveNameDoc(fullDoc);
-            TempData["Message"] = "ArchivesSpace Resource Removed";
+            TempData["Message"] = "DC Resource Removed";
             return RedirectToAction("Name", new { id });
 
         }
@@ -272,6 +272,45 @@ namespace AuthorityCouch.Controllers
             }
             SaveSubjectDoc(fullDoc);
             TempData["Message"] = "ArchivesSpace Resource Removed";
+            return RedirectToAction("Subject", new { id });
+        }
+
+        [HttpPost]
+        public ActionResult AssignDcSubject(AssignViewModel avm, string dcButton)
+        {
+            int parsedPid;
+            if (avm.NewDcResource == null)
+            {
+                TempData["Message"] = "No PID supplied";
+            }
+            else if (!int.TryParse(avm.NewDcResource, out parsedPid))
+            {
+                TempData["Message"] = "PID must be a number";
+            }
+            else
+            {
+                var fullDoc = GetSubjectDocByUuid(avm.Doc._id);
+                if (fullDoc.dcSubject == null) { fullDoc.dcSubject = new List<DcEntry>(); }
+
+                var entry = new DcEntry { type = dcButton, uri = ConfigurationManager.AppSettings["DigitalCollectionsUrl"] + avm.NewDcResource };
+
+                fullDoc.dcSubject.Add(entry);
+
+                SaveSubjectDoc(fullDoc);
+                TempData["Message"] = "Resource Added";
+            }
+
+            return RedirectToAction("Subject", new { id = avm.Doc._id });
+        }
+
+        public ActionResult RemoveSubjectDcResource(string id, string type, string uri)
+        {
+            var fullDoc = GetSubjectDocByUuid(id);
+            fullDoc.dcSubject.Remove(fullDoc.dcSubject.Find(x => x.type == type && x.uri == uri));
+            if (fullDoc.dcSubject.Count == 0) { fullDoc.dcSubject = null; }
+
+            SaveSubjectDoc(fullDoc);
+            TempData["Message"] = "DC Resource Removed";
             return RedirectToAction("Subject", new { id });
 
         }

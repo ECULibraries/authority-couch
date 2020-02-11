@@ -35,6 +35,12 @@ namespace AuthorityCouch
             );
 
             routes.MapRoute(
+                name: "AssignDcSubject",
+                url: "assign/assigndcsubject/",
+                defaults: new { controller = "Assign", action = "AssignDcSubject" }
+            );
+
+            routes.MapRoute(
                 name: "Assign",
                 url: "assign/{id}",
                 defaults: new { controller = "Assign", action = "Index" }
