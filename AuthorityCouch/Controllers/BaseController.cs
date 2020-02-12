@@ -138,11 +138,25 @@ namespace AuthorityCouch.Controllers
             return doc.rows;
         }
 
+        public CouchDocs GetDcNameAllDocs()
+        {
+            var request = new RestRequest($"name_authority/_find", Method.POST, DataFormat.Json);
+            request.AddParameter("application/json", "{\"selector\": {\"dcName\": {\"$gt\":null}}}", ParameterType.RequestBody);
+            return JsonConvert.DeserializeObject<CouchDocs>(_client.Execute(request).Content);
+        }
+
         public List<Row> GetSubjectAllDocs()
         {
             var request = new RestRequest($"subject_authority/_all_docs?include_docs=true", Method.GET, DataFormat.Json);
             var doc = JsonConvert.DeserializeObject<AllDocs>(_client.Execute(request).Content);
             return doc.rows;
+        }
+
+        public CouchDocs GetDcSubjectAllDocs()
+        {
+            var request = new RestRequest($"subject_authority/_find", Method.POST, DataFormat.Json);
+            request.AddParameter("application/json", "{\"selector\": {\"dcSubject\": {\"$gt\":null}}}", ParameterType.RequestBody);
+            return JsonConvert.DeserializeObject<CouchDocs>(_client.Execute(request).Content);
         }
 
         public Doc GetNameDocByUuid(string uuid)

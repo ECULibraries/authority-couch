@@ -8,6 +8,7 @@ namespace AuthorityCouch.Controllers
 {
     public class ExportController : BaseController
     {
+        // AS Name
         public ActionResult Name()
         {
             var vm = new ExportViewModel();
@@ -144,7 +145,6 @@ namespace AuthorityCouch.Controllers
         [HttpPost]
         public ActionResult NameAuthoritiesByGuide(ExportViewModel evm)
         {
-            
             var resources = AsRepo.GetArchivesSpaceResources();
             var found = resources.FirstOrDefault(x => x.title + $" ({x.ead_id})" == evm.NewAsResource);
             var asUrl = ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id;
@@ -243,6 +243,50 @@ namespace AuthorityCouch.Controllers
             System.IO.File.WriteAllText(Server.MapPath("~/Download/AsNameReport.csv"), csv.ToString(), Encoding.UTF8);
             return Redirect("~/Download/AsNameReport.csv");
         }
+
+        // DC Name
+
+        public ActionResult DcNameAuthorities()
+        {
+            var results = GetDcNameAllDocs();
+            
+            var csv = new StringBuilder();
+            csv.AppendLine("id,pid,authoritativeLabel,type,relator_label,relator_uri");
+
+            foreach (var result in results.Docs)
+            {
+                foreach(var name in result.dcName)
+                {
+                    csv.AppendLine($"{result._id},{name.uri.Replace(ConfigurationManager.AppSettings["DigitalCollectionsUrl"], "")},\"{result.authoritativeLabel}\",{name.type},{name.relator_label},{name.relator_uri}");
+                }
+            }
+            System.IO.File.WriteAllText(Server.MapPath("~/Download/dcNameAuths.csv"), csv.ToString(), Encoding.UTF8);
+            return Redirect("~/Download/dcNameAuths.csv");
+        }
+
+        [HttpPost]
+        public ActionResult NameAuthoritiesByPid(ExportViewModel evm)
+        {
+            var dcUrl = ConfigurationManager.AppSettings["DigitalCollectionsUrl"] + evm.DcPid;
+            var requests = SearchNameByDcUri(dcUrl);
+
+            var csv = new StringBuilder();
+            csv.AppendLine("id,authoritativeLabel,type,relator_label,relator_uri");
+
+            var type = string.Empty;
+            foreach (var result in requests.Results.Docs)
+            {
+                foreach (var name in result.dcName.FindAll(x => x.uri == dcUrl))
+                {
+                    csv.AppendLine($"{result._id},\"{result.authoritativeLabel}\",{name.type},{name.relator_label},{name.relator_uri}");
+                }
+            }
+
+            System.IO.File.WriteAllText(Server.MapPath($"~/Download/{evm.DcPid}_NameAuths.csv"), csv.ToString(), Encoding.UTF8);
+            return Redirect($"~/Download/{evm.DcPid}_NameAuths.csv");
+        }
+
+        // AS Subject
 
         [HttpPost]
         public ActionResult SubjectAuthoritiesByGuide(ExportViewModel evm)
@@ -513,5 +557,26 @@ namespace AuthorityCouch.Controllers
             System.IO.File.WriteAllText(Server.MapPath("~/Download/AsSubjectReport.csv"), csv.ToString(), Encoding.UTF8);
             return Redirect("~/Download/AsSubjectReport.csv");
         }
+
+        // DC Subject
+
+        public ActionResult DcSubjectAuthorities()
+        {
+            var results = GetDcSubjectAllDocs();
+
+            var csv = new StringBuilder();
+            csv.AppendLine("id,pid,authoritativeLabel,type");
+
+            foreach (var result in results.Docs)
+            {
+                foreach (var name in result.dcName)
+                {
+                    csv.AppendLine($"{result._id},{name.uri.Replace("http://digital.lib.ecu.edu/", "")},\"{result.authoritativeLabel}\",{name.type}");
+                }
+            }
+            System.IO.File.WriteAllText(Server.MapPath("~/Download/dcSubjectAuths.csv"), csv.ToString(), Encoding.UTF8);
+            return Redirect("~/Download/dcSubjectAuths.csv");
+        }
+
     }
 }

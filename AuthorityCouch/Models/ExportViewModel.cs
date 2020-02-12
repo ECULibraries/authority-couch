@@ -7,5 +7,6 @@ namespace AuthorityCouch.Models
     {
         public IEnumerable<SelectListItem> AsResources { get; set; }
         public string NewAsResource { get; set; }
+        public string DcPid { get; set; }
     }
 }
