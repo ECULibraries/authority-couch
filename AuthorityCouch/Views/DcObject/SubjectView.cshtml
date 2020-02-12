@@ -1,34 +1,35 @@
 ﻿@model AuthorityCouch.Models.DcObjectViewModel
 @{
-    ViewBag.Title = "NameView";
+    ViewBag.Title = "SubjectView";
 }
 
 <h2>@ViewBag.DigitalCollectionsUrl</h2>
-<hr/>
+<hr />
 @if (Model.Name != null && Model.Name.Results.Docs.Count > 0)
 {
-    <h4>Name Authorities</h4>
+    <h4>Subject Authorities</h4>
     <table class="table table-striped">
         <thead>
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Relator</th>
-        </tr>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+
+            </tr>
         </thead>
         @foreach (var doc in Model.Name.Results.Docs)
         {
             <tr>
-                <td><a href="@Url.Action("Name", "Assign", new {id = doc._id})">@doc.authoritativeLabel</a></td>
+                <td><a href="@Url.Action("Subject", "Assign", new {id = doc._id})">@doc.authoritativeLabel</a></td>
                 <td>
-                    @foreach (var name in doc.dcName)
+                    @foreach (var name in doc.dcSubject)
                     {
                         <span>@name.type</span>
-                    }                    
+                    }
                 </td>
-                <td>@doc.dcName[0].relator_label</td>
+  
             </tr>
         }
     </table>
-    <br /><br />
+    <br />
+    <br />
 }

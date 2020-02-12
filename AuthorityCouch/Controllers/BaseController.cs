@@ -108,6 +108,15 @@ namespace AuthorityCouch.Controllers
             return svm;
         }
 
+        public SearchViewModel SearchSubjectByDcUri(string uri)
+        {
+            var svm = new SearchViewModel();
+            var request = new RestRequest($"subject_authority/_find", Method.POST, DataFormat.Json);
+            request.AddParameter("application/json", "{\"selector\": {\"dcSubject\": {\"$elemMatch\":{\"uri\": \"" + uri + "\"} }}, \"limit\": 100 }", ParameterType.RequestBody);
+            svm.Results = JsonConvert.DeserializeObject<CouchDocs>(_client.Execute(request).Content);
+            return svm;
+        }
+
         public void DeleteNameDoc(string id)
         {
             var doc = GetNameDocByUuid(id);
