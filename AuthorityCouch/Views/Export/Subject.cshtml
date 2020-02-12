@@ -6,28 +6,46 @@
 
 <h2>Export</h2>
 <hr />
-<h5>ArchivesSpace</h5>
-<a href="@Url.Action("SubjectAuthorities", "Export")">Download Authority Subject report</a>
-<br />
-<a href="@Url.Action("AsSubjectReport")">Download AS Subject report</a>
-<hr />
-@using (Html.BeginForm("SubjectAuthoritiesByGuide", "Export"))
-{
-    <label>Download Subject authorities by guide</label>
-    <div class="input-group">
-        @Html.TextBoxFor(m => m.NewAsResource, new { @class = "form-control", list = "asList", placeholder = "Search guide title..." })
-        <datalist id="asList">
-            @foreach (var subject in Model.AsResources)
-            {
-                <option value="@subject.Text" />
-            }
-        </datalist>
-        <div class="input-group-append">
-            <input type="submit" value="Download" class="btn btn-primary" />
-        </div>
+<div class="row">
+    <div class="col-md-6">
+        <h5>Digital Collections</h5>
+        <a href="@Url.Action("DcSubject Authorities", "Export")">Download Authority Subject report</a>
+        <hr />
+        @using (Html.BeginForm("SubjectAuthoritiesByPid", "Export"))
+        {
+            <label>Download Subject authorities by DC PID</label>
+            <div class="input-group">
+                @Html.TextBoxFor(m => m.DcPid, new { @class = "form-control", placeholder = "Enter PID" })
+
+                <div class="input-group-append">
+                    <input type="submit" value="Download" class="btn btn-primary" />
+                </div>
+            </div>
+        }
     </div>
-}
-<hr />
-<h5>Digital Collections</h5>
-<a href="@Url.Action("DcSubject Authorities", "Export")">Download Authority Subject report</a>
-<br />
+    <div class="col-md-6">
+        <h5>ArchivesSpace</h5>
+        <a href="@Url.Action("SubjectAuthorities", "Export")">Download Authority Subject report</a>
+        <br />
+        <a href="@Url.Action("AsSubjectReport")">Download AS Subject report</a>
+        <hr />
+        @using (Html.BeginForm("SubjectAuthoritiesByGuide", "Export"))
+        {
+            <label>Download Subject authorities by guide</label>
+            <div class="input-group">
+                @Html.TextBoxFor(m => m.NewAsResource, new { @class = "form-control", list = "asList", placeholder = "Search guide title..." })
+                <datalist id="asList">
+                    @foreach (var subject in Model.AsResources)
+                    {
+                        <option value="@subject.Text" />
+                    }
+                </datalist>
+                <div class="input-group-append">
+                    <input type="submit" value="Download" class="btn btn-primary" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+

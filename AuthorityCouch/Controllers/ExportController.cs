@@ -578,5 +578,26 @@ namespace AuthorityCouch.Controllers
             return Redirect("~/Download/dcSubjectAuths.csv");
         }
 
+        [HttpPost]
+        public ActionResult SubjectAuthoritiesByPid(ExportViewModel evm)
+        {
+            var dcUrl = ConfigurationManager.AppSettings["DigitalCollectionsUrl"] + evm.DcPid;
+            var requests = SearchSubjectByDcUri(dcUrl);
+
+            var csv = new StringBuilder();
+            csv.AppendLine("id,authoritativeLabel,type");
+
+            var type = string.Empty;
+            foreach (var result in requests.Results.Docs)
+            {
+                foreach (var name in result.dcSubject.FindAll(x => x.uri == dcUrl))
+                {
+                    csv.AppendLine($"{result._id},\"{result.authoritativeLabel}\",{name.type}");
+                }
+            }
+
+            System.IO.File.WriteAllText(Server.MapPath($"~/Download/{evm.DcPid}_SubjectAuths.csv"), csv.ToString(), Encoding.UTF8);
+            return Redirect($"~/Download/{evm.DcPid}_SubjectAuths.csv");
+        }
     }
 }
