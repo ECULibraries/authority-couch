@@ -113,18 +113,18 @@ namespace AuthorityCouch.Controllers
                 if (search.Results.Docs[0]._id != evm.Doc._id)
                 {
                     TempData["Message"] = $"No changes made: existing authority found with provided label: <a href='" +
-                                          Url.Action("Name", new { id = search.Results.Docs[0]._id }) + "'>" +
+                                          Url.Action("Subject", new { id = search.Results.Docs[0]._id }) + "'>" +
                                           search.Results.Docs[0]._id + "</a>";
-                    return RedirectToAction("Name", new { id = evm.Doc._id });
+                    return RedirectToAction("Subject", new { id = evm.Doc._id });
                 }
             }
             // if more than one -- another auth and a problem
             else if (search.Results.Docs.Count > 1)
             {
                 TempData["Message"] = $"No changes made: existing authority found with provided label: <a href='" +
-                                      Url.Action("Name", new { id = search.Results.Docs[0]._id }) + "'>" +
+                                      Url.Action("Subject", new { id = search.Results.Docs[0]._id }) + "'>" +
                                       search.Results.Docs[0]._id + "</a>";
-                return RedirectToAction("Name", new { id = evm.Doc._id });
+                return RedirectToAction("Subject", new { id = evm.Doc._id });
             }
 
             // if zero -- update 
