@@ -347,6 +347,99 @@ namespace AuthorityCouch.Controllers
             }
         }
 
+        public void ImportS1s()
+        {
+            var meeting = new Meeting();
+            var response = GetUuids(meeting.Data.Count);
+
+            for (var i = 0; i < meeting.Data.Count; i++)
+            {
+                var request = new RestRequest($"subject_authority/{response.uuids[i]}", Method.PUT, DataFormat.Json);
+                request.AddJsonBody(new { authoritativeLabel = meeting.Data[i][0], archivesSpaceUri = meeting.Data[i][1], externalAuthorityUri = meeting.Data[i][2] == string.Empty ? null : meeting.Data[i][2] });
+                var test = _client.Execute(request).Content;
+            }
+        }
+
+        public void ImportS2s()
+        {
+            var meeting = new Meeting();
+            var response = GetUuids(meeting.Data.Count);
+
+            for (var i = 0; i < meeting.Data.Count; i++)
+            {
+                var request = new RestRequest($"subject_authority/{response.uuids[i]}", Method.PUT, DataFormat.Json);
+                var subs = new List<Substring>();
+                subs.Add(new Substring(meeting.Data[i][2], meeting.Data[i][3]));
+                subs.Add(new Substring(meeting.Data[i][4], meeting.Data[i][5]));
+                request.AddJsonBody(new { authoritativeLabel = meeting.Data[i][0], archivesSpaceUri = meeting.Data[i][1], substrings = subs });
+                var test = _client.Execute(request).Content;
+            }
+        }
+
+        public void ImportS3s()
+        {
+            var meeting = new Meeting();
+            var response = GetUuids(meeting.Data.Count);
+
+            for (var i = 0; i < meeting.Data.Count; i++)
+            {
+                var request = new RestRequest($"subject_authority/{response.uuids[i]}", Method.PUT, DataFormat.Json);
+                var subs = new List<Substring>();
+                subs.Add(new Substring(meeting.Data[i][2], meeting.Data[i][3]));
+                subs.Add(new Substring(meeting.Data[i][4], meeting.Data[i][5]));
+                subs.Add(new Substring(meeting.Data[i][6], meeting.Data[i][7]));
+                request.AddJsonBody(new { authoritativeLabel = meeting.Data[i][0], archivesSpaceUri = meeting.Data[i][1], substrings = subs });
+                var test = _client.Execute(request).Content;
+            }
+        }
+
+        public void ImportS4s()
+        {
+            var meeting = new Meeting();
+            var response = GetUuids(meeting.Data.Count);
+
+            for (var i = 0; i < meeting.Data.Count; i++)
+            {
+                var request = new RestRequest($"subject_authority/{response.uuids[i]}", Method.PUT, DataFormat.Json);
+                var subs = new List<Substring>();
+                subs.Add(new Substring(meeting.Data[i][2], meeting.Data[i][3]));
+                subs.Add(new Substring(meeting.Data[i][4], meeting.Data[i][5]));
+                subs.Add(new Substring(meeting.Data[i][6], meeting.Data[i][7]));
+                subs.Add(new Substring(meeting.Data[i][8], meeting.Data[i][9]));
+                request.AddJsonBody(new { authoritativeLabel = meeting.Data[i][0], archivesSpaceUri = meeting.Data[i][1], substrings = subs });
+                var test = _client.Execute(request).Content;
+            }
+        }
+
+        public void ImportEadRelations()
+        {
+            var topical = new Meeting();
+
+            for (var i = 0; i < topical.Data.Count; i++)
+            {
+                var request = new RestRequest($"subject_authority/_find", Method.POST, DataFormat.Json);
+                request.AddJsonBody(new { selector = new { _id = topical.Data[i][0] } });
+                var doc = JsonConvert.DeserializeObject<CouchDocs>(_client.Execute(request).Content);
+
+                request = new RestRequest($"subject_authority/{doc.Docs[0]._id}/", Method.PUT, DataFormat.Json);
+
+                if (doc.Docs[0].uniformTitle == null)
+                {
+                    doc.Docs[0].uniformTitle = new List<string>();
+                    doc.Docs[0].uniformTitle.Add(topical.Data[i][1]);
+                }
+                else if(!doc.Docs[0].uniformTitle.Contains(topical.Data[i][1]))
+                {
+                    doc.Docs[0].uniformTitle.Add(topical.Data[i][1]);
+                }
+                
+                var json = JsonConvert.SerializeObject(doc.Docs[0], new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                request.AddJsonBody(json);
+                _client.Execute(request);
+            }
+
+        }
+
         public void Clear()
         {
             for (var i = 1; i <= 5928; i++)

@@ -187,6 +187,7 @@
     <Compile Include="Models\Import\Auths.cs" />
     <Compile Include="Models\Import\Corporate.cs" />
     <Compile Include="Models\Import\CorporateName.cs" />
+    <Compile Include="Models\Import\EadSubs.cs" />
     <Compile Include="Models\Import\FamilyName.cs" />
     <Compile Include="Models\Import\Geographic.cs" />
     <Compile Include="Models\Import\Meeting.cs" />

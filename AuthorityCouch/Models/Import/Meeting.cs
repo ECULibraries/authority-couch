@@ -13,21 +13,20 @@ namespace AuthorityCouch.Models.Import
         {
             NewAs = new List<string>(new string[]
             {
-                "Diary of a public man",
-                "Mecklenburg Declaration of Independence",
-                "Camp Dodger",
-                "Crisp, Lucy Cherry, 1899-1977. Brief testament : verse",
-                "Crisp, Lucy Cherry, 1899-1977. History of the North Carolina State Art Society",
-                "Crisp, Lucy Cherry, 1899-1977. Spring fever and other dialect verse",
-                "Crisp, Lucy Cherry, 1899-1977. Story of Nancy North",
-                "Daily Reflector (Greenville, N.C.)",
-                "Jefferies, Susan Herring, 1902-1980. Papa wore no halo",
-                "Land of Plenty",
-                "North Carolina farmer (Raleigh, N.C. : 1876)",
-                "Pitch a boogie woogie (Motion picture)",
-                "Rebel",
-                "Semi-weekly Raleigh register",
-                "Shipmate (Annapolis, Md.)"
+
+"United States--History--Revolutionary period, 1775-1783--Naval operations",
+"United States--History--War of 1812--Pictorial works",
+"Washington, George, 1732-1799--Travel--North Carolina--Greenville",
+"Women authors, American--Mississippi--Jackson--20th century",
+"Women authors, American--Virginia--Charlottesville--20th century",
+"Women--Political activity--North Carolina--Pitt County",
+"World War, 1939-1945--Campaigns--Japan--Pictorial works",
+"World War, 1939-1945--Campaigns--Pacific Area--Maps",
+"World War, 1939-1945--Campaigns--Pacific Ocean--Photographs",
+"World War, 1939-1945--Campaigns--Solomon Islands--Maps",
+"World War, 1939-1945--Hospitals--India--History"
+
+
             });
             NewAsRels = new List<string[]>
             {
@@ -51,21 +50,17 @@ namespace AuthorityCouch.Models.Import
             };
             Data = new List<string[]>
             {
-                new string[2] {"Diary of a public man", "http://archivesspace.ecu.edu/subjects/5942"},
-                new string[2] {"Mecklenburg Declaration of Independence", "http://archivesspace.ecu.edu/subjects/5943"},
-                new string[2] {"Camp Dodger", "http://archivesspace.ecu.edu/subjects/5944"},
-                new string[2] {"Crisp, Lucy Cherry, 1899-1977. Brief testament : verse", "http://archivesspace.ecu.edu/subjects/5945"},
-                new string[2] {"Crisp, Lucy Cherry, 1899-1977. History of the North Carolina State Art Society", "http://archivesspace.ecu.edu/subjects/5946"},
-                new string[2] {"Crisp, Lucy Cherry, 1899-1977. Spring fever and other dialect verse", "http://archivesspace.ecu.edu/subjects/5947"},
-                new string[2] {"Crisp, Lucy Cherry, 1899-1977. Story of Nancy North", "http://archivesspace.ecu.edu/subjects/5948"},
-                new string[2] {"Daily Reflector (Greenville, N.C.)", "http://archivesspace.ecu.edu/subjects/5949"},
-                new string[2] {"Jefferies, Susan Herring, 1902-1980. Papa wore no halo", "http://archivesspace.ecu.edu/subjects/5950"},
-                new string[2] {"Land of Plenty", "http://archivesspace.ecu.edu/subjects/5951"},
-                new string[2] {"North Carolina farmer (Raleigh, N.C. : 1876)", "http://archivesspace.ecu.edu/subjects/5952"},
-                new string[2] {"Pitch a boogie woogie (Motion picture)", "http://archivesspace.ecu.edu/subjects/5953"},
-                new string[2] {"Rebel", "http://archivesspace.ecu.edu/subjects/5954"},
-                new string[2] {"Semi-weekly Raleigh register", "http://archivesspace.ecu.edu/subjects/5955"},
-                new string[2] {"Shipmate (Annapolis, Md.)", "http://archivesspace.ecu.edu/subjects/5956"}
+                new string[2] {"3bd545c1c309a78af7f2d6875903878f","http://archivesspace.ecu.edu/resources/1834"},
+                new string[2] {"3bd545c1c309a78af7f2d68759065795","http://archivesspace.ecu.edu/resources/1460"},
+                new string[2] {"3bd545c1c309a78af7f2d68759084402","http://archivesspace.ecu.edu/resources/1186"},
+                new string[2] {"3bd545c1c309a78af7f2d68759084402","http://archivesspace.ecu.edu/resources/1270"},
+                new string[2] {"3bd545c1c309a78af7f2d68759084402","http://archivesspace.ecu.edu/resources/1726"},
+                new string[2] {"3bd545c1c309a78af7f2d68759084402","http://archivesspace.ecu.edu/resources/1833"},
+                new string[2] {"3bd545c1c309a78af7f2d687590fd581","http://archivesspace.ecu.edu/resources/1741"},
+                new string[2] {"3bd545c1c309a78af7f2d687591a35d1","http://archivesspace.ecu.edu/resources/1557"}
+
+
+
             };
             Relations = new List<string[]>
             {

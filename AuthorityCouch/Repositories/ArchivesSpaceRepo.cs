@@ -195,8 +195,9 @@ namespace AuthorityCouch.Repositories
             }
         }
 
-        public void SaveAsSubjects(Meeting meeting)
+        public string SaveAsSubjects(Meeting meeting)
         {
+            var ids = string.Empty;
             using (var db = Connection)
             {
                 foreach (var sub in meeting.NewAs)
@@ -221,10 +222,13 @@ namespace AuthorityCouch.Repositories
                     // new subject if new term
                     var newSub = GetNewSubject(sub.Trim());
                     db.Insert(newSub);
+                    ids += newSub.id + ";";
                     var subjectTerm = new AsSubjectTerm {subject_id = newSub.id, term_id = nterm.id};
                     db.Insert(subjectTerm);
                 }
             }
+
+            return ids;
         }
 
         private AsSubject GetNewSubject(string value)

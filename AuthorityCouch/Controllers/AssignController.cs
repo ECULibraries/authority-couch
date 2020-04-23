@@ -278,6 +278,7 @@ namespace AuthorityCouch.Controllers
         [HttpPost]
         public ActionResult AssignDcSubject(AssignViewModel avm, string dcButton)
         {
+            dcButton = Regex.Replace(dcButton, @" \(...\)", "");
             int parsedPid;
             if (avm.NewDcResource == null)
             {
