@@ -11,6 +11,13 @@ namespace AuthorityCouch.Controllers
             var vm = new EditViewModel();
             vm.Doc = GetNameDocByUuid(id);
 
+            //List<SelectListItem> Types = new List<SelectListItem>();
+            //Types.Add(new SelectListItem() { Text = "Personal", Value = "Personal" });
+            //Types.Add(new SelectListItem() { Text = "Family", Value = "Family" });
+            //Types.Add(new SelectListItem() { Text = "Corporate", Value = "Corporate" });
+
+            //ViewBag.Types = new SelectList(Types, "Value", "Text");
+
             return View(vm);
         }
 
@@ -47,7 +54,7 @@ namespace AuthorityCouch.Controllers
             fullDoc.authoritativeLabel = evm.Doc.authoritativeLabel;
             fullDoc.externalAuthorityUri = evm.Doc.externalAuthorityUri;
             fullDoc.archivesSpaceUri = evm.Doc.archivesSpaceUri;
-
+            fullDoc.type = evm.Doc.type;
             // wipe substrings if externalAuthorityUri has value
             if (fullDoc.externalAuthorityUri != null)
             {

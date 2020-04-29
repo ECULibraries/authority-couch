@@ -40,36 +40,47 @@ namespace AuthorityCouch.Controllers
             else
             {
                 var fullDoc = GetNameDocByUuid(avm.Doc._id);
-                if (asButton == "PersonalNameCreator")
+                if (asButton == "Creator")
                 {
-                    if (fullDoc.personalNameCreator == null) { fullDoc.personalNameCreator = new List<string>(); }
-                    fullDoc.personalNameCreator.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
+                    if (fullDoc.creator == null) { fullDoc.creator = new List<string>(); }
+                    fullDoc.creator.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
                 }
-                else if (asButton == "PersonalNameSource")
+                else if (asButton == "Source")
                 {
-                    if (fullDoc.personalNameSource == null) { fullDoc.personalNameSource = new List<string>(); }
-                    fullDoc.personalNameSource.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
+                    if (fullDoc.source == null) { fullDoc.source = new List<string>(); }
+                    fullDoc.source.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
                 }
-                else if (asButton == "FamilyNameCreator")
-                {
-                    if (fullDoc.familyNameCreator == null) { fullDoc.familyNameCreator = new List<string>(); }
-                    fullDoc.familyNameCreator.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
-                }
-                else if (asButton == "FamilyNameSource")
-                {
-                    if (fullDoc.familyNameSource == null) { fullDoc.familyNameSource = new List<string>(); }
-                    fullDoc.familyNameSource.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
-                }
-                else if (asButton == "CorporateNameCreator")
-                {
-                    if (fullDoc.corporateNameCreator == null) { fullDoc.corporateNameCreator = new List<string>(); }
-                    fullDoc.corporateNameCreator.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
-                }
-                else if (asButton == "CorporateNameSource")
-                {
-                    if (fullDoc.corporateNameSource == null) { fullDoc.corporateNameSource = new List<string>(); }
-                    fullDoc.corporateNameSource.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
-                }
+
+                //if (asButton == "PersonalNameCreator")
+                //{
+                //    if (fullDoc.personalNameCreator == null) { fullDoc.personalNameCreator = new List<string>(); }
+                //    fullDoc.personalNameCreator.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
+                //}
+                //else if (asButton == "PersonalNameSource")
+                //{
+                //    if (fullDoc.personalNameSource == null) { fullDoc.personalNameSource = new List<string>(); }
+                //    fullDoc.personalNameSource.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
+                //}
+                //else if (asButton == "FamilyNameCreator")
+                //{
+                //    if (fullDoc.familyNameCreator == null) { fullDoc.familyNameCreator = new List<string>(); }
+                //    fullDoc.familyNameCreator.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
+                //}
+                //else if (asButton == "FamilyNameSource")
+                //{
+                //    if (fullDoc.familyNameSource == null) { fullDoc.familyNameSource = new List<string>(); }
+                //    fullDoc.familyNameSource.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
+                //}
+                //else if (asButton == "CorporateNameCreator")
+                //{
+                //    if (fullDoc.corporateNameCreator == null) { fullDoc.corporateNameCreator = new List<string>(); }
+                //    fullDoc.corporateNameCreator.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
+                //}
+                //else if (asButton == "CorporateNameSource")
+                //{
+                //    if (fullDoc.corporateNameSource == null) { fullDoc.corporateNameSource = new List<string>(); }
+                //    fullDoc.corporateNameSource.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
+                //}
 
                 SaveNameDoc(fullDoc);
                 TempData["Message"] = "Resource Added";
@@ -83,30 +94,38 @@ namespace AuthorityCouch.Controllers
             var fullDoc = GetNameDocByUuid(id);
             switch (type)
             {
-                case "personalNameCreator":
-                    fullDoc.personalNameCreator.Remove(uri);
-                    if (fullDoc.personalNameCreator.Count == 0) { fullDoc.personalNameCreator = null; }
+                case "creator":
+                    fullDoc.creator.Remove(uri);
+                    if (fullDoc.creator.Count == 0) { fullDoc.creator = null; }
                     break;
-                case "personalNameSource":
-                    fullDoc.personalNameSource.Remove(uri);
-                    if (fullDoc.personalNameSource.Count == 0) { fullDoc.personalNameSource = null; }
+                case "source":
+                    fullDoc.source.Remove(uri);
+                    if (fullDoc.source.Count == 0) { fullDoc.source = null; }
                     break;
-                case "familyNameCreator":
-                    fullDoc.familyNameCreator.Remove(uri);
-                    if (fullDoc.familyNameCreator.Count == 0) { fullDoc.familyNameCreator = null; }
-                    break;
-                case "familyNameSource":
-                    fullDoc.familyNameSource.Remove(uri);
-                    if (fullDoc.familyNameSource.Count == 0) { fullDoc.familyNameSource = null; }
-                    break;
-                case "corporateNameCreator":
-                    fullDoc.corporateNameCreator.Remove(uri);
-                    if (fullDoc.corporateNameCreator.Count == 0) { fullDoc.corporateNameCreator = null; }
-                    break;
-                case "corporateNameSource":
-                    fullDoc.corporateNameSource.Remove(uri);
-                    if (fullDoc.corporateNameSource.Count == 0) { fullDoc.corporateNameSource = null; }
-                    break;
+                //case "personalNameCreator":
+                //    fullDoc.personalNameCreator.Remove(uri);
+                //    if (fullDoc.personalNameCreator.Count == 0) { fullDoc.personalNameCreator = null; }
+                //    break;
+                //case "personalNameSource":
+                //    fullDoc.personalNameSource.Remove(uri);
+                //    if (fullDoc.personalNameSource.Count == 0) { fullDoc.personalNameSource = null; }
+                //    break;
+                //case "familyNameCreator":
+                //    fullDoc.familyNameCreator.Remove(uri);
+                //    if (fullDoc.familyNameCreator.Count == 0) { fullDoc.familyNameCreator = null; }
+                //    break;
+                //case "familyNameSource":
+                //    fullDoc.familyNameSource.Remove(uri);
+                //    if (fullDoc.familyNameSource.Count == 0) { fullDoc.familyNameSource = null; }
+                //    break;
+                //case "corporateNameCreator":
+                //    fullDoc.corporateNameCreator.Remove(uri);
+                //    if (fullDoc.corporateNameCreator.Count == 0) { fullDoc.corporateNameCreator = null; }
+                //    break;
+                //case "corporateNameSource":
+                //    fullDoc.corporateNameSource.Remove(uri);
+                //    if (fullDoc.corporateNameSource.Count == 0) { fullDoc.corporateNameSource = null; }
+                //    break;
             }
             SaveNameDoc(fullDoc);
             TempData["Message"] = "ArchivesSpace Resource Removed";

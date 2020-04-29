@@ -32,13 +32,17 @@ namespace AuthorityCouch.Models
         [Required]
         [Display(Name = "Full Authoritative Label")]
         public string authoritativeLabel { get; set; }
+        public string type { get; set; }
         public string externalAuthorityUri { get; set; }
 
         public List<Substring> substrings { get; set; }
 
         [Display(Name = "ArchivesSpace URI")]
         public string archivesSpaceUri { get; set; }
-        
+
+        public List<string> creator { get; set; }
+        public List<string> source { get; set; }
+
         public List<string> familyNameCreator { get; set; }
         public List<string> familyNameSource { get; set; }
         public List<string> corporateNameCreator { get; set; }

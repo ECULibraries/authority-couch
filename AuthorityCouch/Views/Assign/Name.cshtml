@@ -32,12 +32,15 @@
                 @Html.TextBoxFor(m => m.RelatorUri, new { @class = "form-control", placeholder = "http://id.loc.gov/vocabulary/relators/###" })
                 <small class="text-muted"><a href="http://id.loc.gov/vocabulary/relators.html">http://id.loc.gov/vocabulary/relators.html</a></small>
             </div>
-            
+
             <div class="form-group">
                 <label>LCSH Relator Value</label>
                 @Html.TextBoxFor(m => m.RelatorLabel, new { @class = "form-control col-md-6" })
             </div>
-            <button type="button" class="btn btn-outline-primary mt-2" data-toggle="modal" data-target="#dcPersonalModal">
+
+            <input type="submit" value="Creator" class="btn btn-outline-primary" name="dcButton" />
+            <input type="submit" value="Contributor" class="btn btn-outline-primary" name="dcButton" />
+            @*<button type="button" class="btn btn-outline-primary mt-2" data-toggle="modal" data-target="#dcPersonalModal">
                 PersonalName (100)
             </button>
             <button type="button" class="btn btn-outline-danger mt-2" data-toggle="modal" data-target="#dcCorporateModal">
@@ -83,7 +86,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
         }
         <hr />
         <h5>Existing assignments</h5>
@@ -103,7 +106,7 @@
                                 <text> - </text>@item.relator_label
                             }
                         </span>
-                        
+
                         <a href="@Url.Action("RemoveNameDcResource", "Assign", new {id = Model.Doc._id, type = item.type, uri = item.uri})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
                     </li>
                 }
@@ -117,13 +120,13 @@
             @Html.HiddenFor(m => m.Doc._id)
 
             <h5>Assign to ArchivesSpace resource</h5>
-            <hr/>
+            <hr />
             <div class="form-group">
-                @Html.TextBoxFor(m => m.NewAsResource, new {@class = "form-control", list = "asList", placeholder = "Search guide title..."})
+                @Html.TextBoxFor(m => m.NewAsResource, new { @class = "form-control", list = "asList", placeholder = "Search guide title..." })
                 <datalist id="asList">
                     @foreach (var subject in Model.AsResources)
                     {
-                        <option value="@subject.Text"/>
+                        <option value="@subject.Text" />
                     }
                 </datalist>
             </div>
@@ -132,7 +135,7 @@
             <input type="submit" value="Topic (650)" class="btn btn-primary mt-2" name="asButton" />
             <input type="submit" value="Geographic (651)" class="btn btn-success mt-2" name="asButton" />*@
 
-            <button type="button" class="btn btn-outline-primary mt-2" data-toggle="modal" data-target="#personalModal">
+            @*<button type="button" class="btn btn-outline-primary mt-2" data-toggle="modal" data-target="#personalModal">
                 PersonalName (100)
             </button>
             <button type="button" class="btn btn-outline-success mt-2" data-toggle="modal" data-target="#familyModal">
@@ -140,12 +143,16 @@
             </button>
             <button type="button" class="btn btn-outline-danger mt-2" data-toggle="modal" data-target="#corporateModal">
                 CorporateName (110)
-            </button>
+            </button>*@
+
+            <input type="submit" value="Creator" class="btn btn-outline-primary" name="asButton" />
+            <input type="submit" value="Source" class="btn btn-outline-primary" name="asButton" />
+
             @*<button type="button" class="btn btn-outline-info mt-2" data-toggle="modal" data-target="#conferenceModal">
                 ConferenceName (111)
             </button>*@
 
-            <div class="modal fade" id="personalModal" tabindex="-1" role="dialog" aria-labelledby="personalModalLabel" aria-hidden="true">
+            @*<div class="modal fade" id="personalModal" tabindex="-1" role="dialog" aria-labelledby="personalModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -155,8 +162,8 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <input type="submit" value="PersonalNameCreator" class="btn btn-outline-primary btn-block" name="asButton"/>
-                            <input type="submit" value="PersonalNameSource" class="btn btn-outline-primary btn-block" name="asButton"/>
+                            <input type="submit" value="PersonalNameCreator" class="btn btn-outline-primary btn-block" name="asButton" />
+                            <input type="submit" value="PersonalNameSource" class="btn btn-outline-primary btn-block" name="asButton" />
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -176,8 +183,8 @@
                         </div>
                         <div class="modal-body">
 
-                            <input type="submit" value="FamilyNameCreator" class="btn btn-outline-success btn-block" name="asButton"/>
-                            <input type="submit" value="FamilyNameSource" class="btn btn-outline-success btn-block" name="asButton"/>
+                            <input type="submit" value="FamilyNameCreator" class="btn btn-outline-success btn-block" name="asButton" />
+                            <input type="submit" value="FamilyNameSource" class="btn btn-outline-success btn-block" name="asButton" />
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -197,21 +204,49 @@
                         </div>
                         <div class="modal-body">
 
-                            <input type="submit" value="CorporateNameCreator" class="btn btn-outline-danger btn-block" name="asButton"/>
-                            <input type="submit" value="CorporateNameSource" class="btn btn-outline-danger btn-block" name="asButton"/>
+                            <input type="submit" value="CorporateNameCreator" class="btn btn-outline-danger btn-block" name="asButton" />
+                            <input type="submit" value="CorporateNameSource" class="btn btn-outline-danger btn-block" name="asButton" />
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
         }
-        <hr/>
+        <hr />
         <h5>Existing assignments</h5>
 
         <ul class="list-unstyled">
-            @if (Model.Doc.personalNameCreator != null)
+            @if (Model.Doc.creator != null)
+            {
+                foreach (var item in Model.Doc.creator)
+                {
+                    <li>
+                        @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
+                        <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
+                        <a href="@Url.Action("NameView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
+                        <span class="badge badge-pill badge-secondary">creator</span>
+                        <a href="@Url.Action("RemoveNameAsResource", "Assign", new {id = Model.Doc._id, type = "creator", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
+                    </li>
+                }
+            }
+            @if (Model.Doc.source != null)
+            {
+                foreach (var item in Model.Doc.source)
+                {
+                    <li>
+                        @{ var match = Model.AsResources.FirstOrDefault(x => x.Value == item); }
+                        <a href="@item" class="text-warning" target="_blank"><span class="fa fa-external-link"></span></a>
+                        <a href="@Url.Action("NameView", "Guide", new {id = item.Split('/')[4]})">@match.Text</a>
+                        <span class="badge badge-pill badge-secondary">source</span>
+                        <a href="@Url.Action("RemoveNameAsResource", "Assign", new {id = Model.Doc._id, type = "source", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
+                    </li>
+                }
+            }
+
+
+            @*@if (Model.Doc.personalNameCreator != null)
             {
                 foreach (var item in Model.Doc.personalNameCreator)
                 {
@@ -288,7 +323,7 @@
                         <a href="@Url.Action("RemoveNameAsResource", "Assign", new {id = Model.Doc._id, type = "corporateNameSource", uri = item})" onclick="return confirm('Are you sure you want to delete this assignment?')"><span class="fa fa-trash text-danger"></span></a>
                     </li>
                 }
-            }
+            }*@
 
         </ul>
     </div>
