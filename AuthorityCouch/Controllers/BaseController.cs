@@ -73,12 +73,8 @@ namespace AuthorityCouch.Controllers
         {
             var svm = new SearchViewModel();
             var request = new RestRequest($"name_authority/_find", Method.POST, DataFormat.Json);
-            request.AddParameter("application/json", "{\"selector\": {\"$or\": [ {\"personalNameCreator\":{\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, " +
-                                                     "{\"personalNameSource\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, " +
-                                                     "{\"corporateNameCreator\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, " +
-                                                     "{\"corporateNameSource\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, " +
-                                                     "{\"familyNameCreator\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, " +
-                                                     "{\"familyNameSource\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}] }, \"limit\": 100 }", ParameterType.RequestBody);
+            request.AddParameter("application/json", "{\"selector\": {\"$or\": [ {\"creator\":{\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}, " +
+                                                     "{\"source\": {\"$elemMatch\": {\"$eq\": \"" + uri + "\"} }}] }, \"limit\": 100 }", ParameterType.RequestBody);
             svm.Results = JsonConvert.DeserializeObject<CouchDocs>(_client.Execute(request).Content);
             return svm;
         }

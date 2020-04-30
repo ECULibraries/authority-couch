@@ -49,10 +49,10 @@ namespace AuthorityCouch.Controllers
                     {
                         externalUri = string.Join(";", result.doc.substrings?.Select(x => x.externalAuthorityUri));
                     }
-                    
-                    if (result.doc.personalNameCreator != null)
+
+                    if (result.doc.creator != null)
                     {
-                        foreach (var item in result.doc.personalNameCreator)
+                        foreach (var item in result.doc.creator)
                         {
                             found = agentLinks.Find(x => x.person_name == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.role_id == 878);
                             if (found != null)
@@ -60,12 +60,12 @@ namespace AuthorityCouch.Controllers
                                 match = true;
                                 authMatch = result.doc._id == found.authority_id;
                             }
-                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{externalUri},{result.doc.archivesSpaceUri},personalCreator,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match},{authMatch}");
+                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{externalUri},{result.doc.archivesSpaceUri},creator,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match},{authMatch}");
                         }
                     }
-                    if (result.doc.personalNameSource != null)
+                    if (result.doc.source != null)
                     {
-                        foreach (var item in result.doc.personalNameSource)
+                        foreach (var item in result.doc.source)
                         {
                             found = agentLinks.Find(x => x.person_name == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.role_id == 879);
                             if (found != null)
@@ -73,67 +73,13 @@ namespace AuthorityCouch.Controllers
                                 match = true;
                                 authMatch = result.doc._id == found.authority_id;
                             }
-                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{externalUri},{result.doc.archivesSpaceUri},personalSource,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match},{authMatch}");
-                        }
-                    }
-                    if (result.doc.familyNameCreator != null)
-                    {
-                        foreach (var item in result.doc.familyNameCreator)
-                        {
-                            found = agentLinks.Find(x => x.family_name == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.role_id == 878);
-                            if (found != null)
-                            {
-                                match = true;
-                                authMatch = result.doc._id == found.authority_id;
-                            }
-                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{externalUri},{result.doc.archivesSpaceUri},familyCreator,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match},{authMatch}");
-                        }
-                    }
-                    if (result.doc.familyNameSource != null)
-                    {
-                        foreach (var item in result.doc.familyNameSource)
-                        {
-                            found = agentLinks.Find(x => x.family_name == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.role_id == 879);
-                            if (found != null)
-                            {
-                                match = true;
-                                authMatch = result.doc._id == found.authority_id;
-                            }
-                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{externalUri},{result.doc.archivesSpaceUri},familySource,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match},{authMatch}");
-                        }
-                    }
-                    if (result.doc.corporateNameCreator != null)
-                    {
-                        foreach (var item in result.doc.corporateNameCreator)
-                        {
-                            found = agentLinks.Find(x => x.corp_name == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.role_id == 878);
-                            if (found != null)
-                            {
-                                match = true;
-                                authMatch = result.doc._id == found.authority_id;
-                            }
-                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{externalUri},{result.doc.archivesSpaceUri},corporateCreator,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match},{authMatch}");
-                        }
-                    }
-                    if (result.doc.corporateNameSource != null)
-                    {
-                        foreach (var item in result.doc.corporateNameSource)
-                        {
-                            found = agentLinks.Find(x => x.corp_name == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.role_id == 879);
-                            if (found != null)
-                            {
-                                match = true;
-                                authMatch = result.doc._id == found.authority_id;
-                            }
-                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{externalUri},{result.doc.archivesSpaceUri},corporateSource,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match},{authMatch}");
+                            csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{externalUri},{result.doc.archivesSpaceUri},source,{item.Replace("http://archivesspace.ecu.edu/resources/", "")},{match},{authMatch}");
                         }
                     }
 
-                    if (result.doc.personalNameCreator == null && result.doc.personalNameSource == null &&
-                        result.doc.familyNameCreator == null && result.doc.familyNameSource == null &&
-                        result.doc.corporateNameCreator == null && result.doc.corporateNameSource == null)
+                    if (result.doc.creator == null && result.doc.source == null)
                     {
-                        csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",{result.doc.archivesSpaceUri},corporateSource,FALSE,{match},{authMatch}");
+                        csv.AppendLine($"{result.doc._id},\"{result.doc.authoritativeLabel}\",,{result.doc.archivesSpaceUri},,FALSE,{match},{authMatch}");
                     }
                 }
             }
@@ -156,12 +102,12 @@ namespace AuthorityCouch.Controllers
             var type = string.Empty;
             foreach (var result in requests.Results.Docs)
             {
-                if(result.personalNameCreator != null && result.personalNameCreator.Contains(asUrl)) { type = "personalNameCreator"; }
-                else if (result.personalNameSource != null && result.personalNameSource.Contains(asUrl)) { type = "personalNameSource"; }
-                else if (result.corporateNameCreator != null && result.corporateNameCreator.Contains(asUrl)) { type = "corporateNameCreator"; }
-                else if (result.corporateNameSource != null && result.corporateNameSource.Contains(asUrl)) { type = "corporateNameSource"; }
-                else if (result.familyNameCreator != null && result.familyNameCreator.Contains(asUrl)) { type = "familyNameCreator"; }
-                else if (result.familyNameSource != null && result.familyNameSource.Contains(asUrl)) { type = "familyNameSource"; }
+                if(result.creator != null && result.creator.Contains(asUrl)) { type = "creator"; }
+                else if (result.source != null && result.source.Contains(asUrl)) { type = "source"; }
+                //else if (result.corporateNameCreator != null && result.corporateNameCreator.Contains(asUrl)) { type = "corporateNameCreator"; }
+                //else if (result.corporateNameSource != null && result.corporateNameSource.Contains(asUrl)) { type = "corporateNameSource"; }
+                //else if (result.familyNameCreator != null && result.familyNameCreator.Contains(asUrl)) { type = "familyNameCreator"; }
+                //else if (result.familyNameSource != null && result.familyNameSource.Contains(asUrl)) { type = "familyNameSource"; }
                 csv.AppendLine($"{result._id},\"{result.authoritativeLabel}\",{type}");
             }
 
