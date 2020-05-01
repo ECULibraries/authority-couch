@@ -36,7 +36,7 @@ namespace AuthorityCouch.Controllers
         public SearchViewModel SearchNamePrefix(SearchViewModel svm)
         {
             var request = new RestRequest($"name_authority/_find", Method.POST, DataFormat.Json);
-            request.AddParameter("application/json", "{ \"selector\": {\"authoritativeLabel\": {\"$regex\": \"^" + svm.Term + "\"} }, \"sort\": [{\"authoritativeLabel\": \"asc\"}], \"limit\": 1000 }", ParameterType.RequestBody);
+            request.AddParameter("application/json", "{ \"selector\": {\"authoritativeLabel\": {\"$regex\": \"^" + svm.Term.Replace("(", @"\\(").Replace(")", @"\\)") + "\"} }, \"sort\": [{\"authoritativeLabel\": \"asc\"}], \"limit\": 1000 }", ParameterType.RequestBody);
 
             var test = _client.Execute(request).Content;
             svm.Results = JsonConvert.DeserializeObject<CouchDocs>(test);
@@ -46,7 +46,7 @@ namespace AuthorityCouch.Controllers
         public SearchViewModel SearchSubjectPrefix(SearchViewModel svm)
         {
             var request = new RestRequest($"subject_authority/_find", Method.POST, DataFormat.Json);
-            request.AddParameter("application/json", "{ \"selector\": {\"authoritativeLabel\": {\"$regex\": \"^" + svm.Term + "\"} }, \"sort\": [{\"authoritativeLabel\": \"asc\"}], \"limit\": 1000 }", ParameterType.RequestBody);
+            request.AddParameter("application/json", "{ \"selector\": {\"authoritativeLabel\": {\"$regex\": \"^" + svm.Term.Replace("(",@"\\(").Replace(")", @"\\)") + "\"} }, \"sort\": [{\"authoritativeLabel\": \"asc\"}], \"limit\": 1000 }", ParameterType.RequestBody);
 
             var test = _client.Execute(request).Content;
             svm.Results = JsonConvert.DeserializeObject<CouchDocs>(test);
