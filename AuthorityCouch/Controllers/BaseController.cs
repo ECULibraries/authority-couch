@@ -21,7 +21,7 @@ namespace AuthorityCouch.Controllers
         };
 
 
-    public BaseController()
+        public BaseController()
         {
             AsRepo = new ArchivesSpaceRepo();
         }
@@ -233,6 +233,11 @@ namespace AuthorityCouch.Controllers
                 request.AddJsonBody(json);
                 _client.Execute(request);
             }
+        }
+
+        public void AddRelations()
+        {
+            AsRepo.CreateSubjectRelationship();
         }
 
         public void ImportCorporate()

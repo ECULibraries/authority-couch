@@ -292,7 +292,11 @@ namespace AuthorityCouch.Controllers
             {
                 var match = false;
                 var authMatch = false;
-
+                //if (result.doc._id == "3bd545c1c309a78af7f2d6875928aabe")
+                //{
+                //    var test = "adf";
+                //    test.ToUpper();
+                //}
                 if (!result.doc._id.StartsWith("_"))
                 {
                     var externalUri = string.Empty;
@@ -309,11 +313,11 @@ namespace AuthorityCouch.Controllers
                     {
                         foreach (var topic in result.doc.topic)
                         {
-                            if (result.doc.authoritativeLabel.StartsWith("Inchon"))
-                            {
-                                var x = 33;
-                            }
-                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == topic.Replace("http://archivesspace.ecu.edu/resources/", "") && x.type == "topical");
+                            //if (result.doc.authoritativeLabel.StartsWith("Inchon"))
+                            //{
+                            //    var x = 33;
+                            //}
+                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == topic.Replace("http://archivesspace.ecu.edu/resources/", ""));// && x.type == "topical");
                             if (found != null)
                             {
                                 match = true;
@@ -327,7 +331,7 @@ namespace AuthorityCouch.Controllers
                     {
                         foreach (var item in result.doc.geographic)
                         {
-                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.type == "geographic");
+                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", ""));// && x.type == "geographic");
                             if (found != null)
                             {
                                 match = true;
@@ -340,7 +344,7 @@ namespace AuthorityCouch.Controllers
                     {
                         foreach (var item in result.doc.personalNameSubject)
                         {
-                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.type == "personal");
+                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", ""));// && x.type == "personal");
                             if (found != null)
                             {
                                 match = true;
@@ -353,7 +357,7 @@ namespace AuthorityCouch.Controllers
                     {
                         foreach (var item in result.doc.familyNameSubject)
                         {
-                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.type == "family");
+                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", ""));// && x.type == "family");
                             if (found != null)
                             {
                                 match = true;
@@ -366,7 +370,7 @@ namespace AuthorityCouch.Controllers
                     {
                         foreach (var item in result.doc.corporateNameSubject)
                         {
-                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.type == "corporate");
+                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", ""));// && x.type == "corporate");
                             if (found != null)
                             {
                                 match = true;
@@ -379,7 +383,7 @@ namespace AuthorityCouch.Controllers
                     {
                         foreach (var item in result.doc.meeting)
                         {
-                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.type == "meeting");
+                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", ""));// && x.type == "meeting");
                             if (found != null)
                             {
                                 match = true;
@@ -392,7 +396,7 @@ namespace AuthorityCouch.Controllers
                     {
                         foreach (var item in result.doc.uniformTitle)
                         {
-                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", "") && x.type == "uniform_title");
+                            found = subjectLinks.Find(x => x.subject == result.doc.authoritativeLabel && x.resource_id.ToString() == item.Replace("http://archivesspace.ecu.edu/resources/", ""));// && x.type == "uniform_title");
                             if (found != null)
                             {
                                 match = true;
