@@ -212,41 +212,46 @@ namespace AuthorityCouch.Controllers
             else
             {
                 var fullDoc = GetSubjectDocByUuid(avm.Doc._id);
-                if (asButton == "Topic")
+                if (asButton == "Assign")
                 {
-                    if (fullDoc.topic == null) { fullDoc.topic = new List<string>(); }
-                    fullDoc.topic.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
+                    if (fullDoc.archivesSpaceRelations == null) { fullDoc.archivesSpaceRelations = new List<string>(); }
+                    fullDoc.archivesSpaceRelations.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
                 }
-                else if (asButton == "Geographic")
-                {
-                    if (fullDoc.geographic == null) { fullDoc.geographic = new List<string>(); }
-                    fullDoc.geographic.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
-                }
-                else if (asButton == "PersonalName")
-                {
-                    if (fullDoc.personalNameSubject == null) { fullDoc.personalNameSubject = new List<string>(); }
-                    fullDoc.personalNameSubject.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
-                }
-                else if (asButton == "FamilyName")
-                {
-                    if (fullDoc.familyNameSubject == null) { fullDoc.familyNameSubject = new List<string>(); }
-                    fullDoc.familyNameSubject.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
-                }
-                else if (asButton == "CorporateName")
-                {
-                    if (fullDoc.corporateNameSubject == null) { fullDoc.corporateNameSubject = new List<string>(); }
-                    fullDoc.corporateNameSubject.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
-                }
-                else if (asButton == "MeetingName")
-                {
-                    if (fullDoc.meeting == null) { fullDoc.meeting = new List<string>(); }
-                    fullDoc.meeting.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
-                }
-                else if (asButton == "UniformTitle")
-                {
-                    if (fullDoc.uniformTitle == null) { fullDoc.uniformTitle = new List<string>(); }
-                    fullDoc.uniformTitle.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
-                }
+                //if (asButton == "Topic")
+                //{
+                //    if (fullDoc.topic == null) { fullDoc.topic = new List<string>(); }
+                //    fullDoc.topic.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
+                //}
+                //else if (asButton == "Geographic")
+                //{
+                //    if (fullDoc.geographic == null) { fullDoc.geographic = new List<string>(); }
+                //    fullDoc.geographic.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
+                //}
+                //else if (asButton == "PersonalName")
+                //{
+                //    if (fullDoc.personalNameSubject == null) { fullDoc.personalNameSubject = new List<string>(); }
+                //    fullDoc.personalNameSubject.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
+                //}
+                //else if (asButton == "FamilyName")
+                //{
+                //    if (fullDoc.familyNameSubject == null) { fullDoc.familyNameSubject = new List<string>(); }
+                //    fullDoc.familyNameSubject.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
+                //}
+                //else if (asButton == "CorporateName")
+                //{
+                //    if (fullDoc.corporateNameSubject == null) { fullDoc.corporateNameSubject = new List<string>(); }
+                //    fullDoc.corporateNameSubject.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
+                //}
+                //else if (asButton == "MeetingName")
+                //{
+                //    if (fullDoc.meeting == null) { fullDoc.meeting = new List<string>(); }
+                //    fullDoc.meeting.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
+                //}
+                //else if (asButton == "UniformTitle")
+                //{
+                //    if (fullDoc.uniformTitle == null) { fullDoc.uniformTitle = new List<string>(); }
+                //    fullDoc.uniformTitle.Add(ConfigurationManager.AppSettings["ArchivesSpaceUrl"] + found.id);
+                //}
 
                 SaveSubjectDoc(fullDoc);
                 TempData["Message"] = "Resource Added";
@@ -258,37 +263,40 @@ namespace AuthorityCouch.Controllers
         public ActionResult RemoveSubjectAsResource(string id, string type, string uri)
         {
             var fullDoc = GetSubjectDocByUuid(id);
-            switch (type)
-            {
-                case "topic":
-                    fullDoc.topic.Remove(uri);
-                    if (fullDoc.topic.Count == 0) { fullDoc.topic = null; }
-                    break;
-                case "geographic":
-                    fullDoc.geographic.Remove(uri);
-                    if (fullDoc.geographic.Count == 0) { fullDoc.geographic = null; }
-                    break;
-                case "personalNameSubject":
-                    fullDoc.personalNameSubject.Remove(uri);
-                    if (fullDoc.personalNameSubject.Count == 0) { fullDoc.personalNameSubject = null; }
-                    break;
-                case "familyNameSubject":
-                    fullDoc.familyNameSubject.Remove(uri);
-                    if (fullDoc.familyNameSubject.Count == 0) { fullDoc.familyNameSubject = null; }
-                    break;
-                case "corporateNameSubject":
-                    fullDoc.corporateNameSubject.Remove(uri);
-                    if (fullDoc.corporateNameSubject.Count == 0) { fullDoc.corporateNameSubject = null; }
-                    break;
-                case "meeting":
-                    fullDoc.meeting.Remove(uri);
-                    if (fullDoc.meeting.Count == 0) { fullDoc.meeting = null; }
-                    break;
-                case "uniformTitle":
-                    fullDoc.uniformTitle.Remove(uri);
-                    if (fullDoc.uniformTitle.Count == 0) { fullDoc.uniformTitle = null; }
-                    break;
-            }
+
+            fullDoc.archivesSpaceRelations.Remove(uri);
+            if (fullDoc.archivesSpaceRelations.Count == 0) { fullDoc.topic = null; }
+            //switch (type)
+            //{
+            //    case "topic":
+            //        fullDoc.topic.Remove(uri);
+            //        if (fullDoc.topic.Count == 0) { fullDoc.topic = null; }
+            //        break;
+            //    case "geographic":
+            //        fullDoc.geographic.Remove(uri);
+            //        if (fullDoc.geographic.Count == 0) { fullDoc.geographic = null; }
+            //        break;
+            //    case "personalNameSubject":
+            //        fullDoc.personalNameSubject.Remove(uri);
+            //        if (fullDoc.personalNameSubject.Count == 0) { fullDoc.personalNameSubject = null; }
+            //        break;
+            //    case "familyNameSubject":
+            //        fullDoc.familyNameSubject.Remove(uri);
+            //        if (fullDoc.familyNameSubject.Count == 0) { fullDoc.familyNameSubject = null; }
+            //        break;
+            //    case "corporateNameSubject":
+            //        fullDoc.corporateNameSubject.Remove(uri);
+            //        if (fullDoc.corporateNameSubject.Count == 0) { fullDoc.corporateNameSubject = null; }
+            //        break;
+            //    case "meeting":
+            //        fullDoc.meeting.Remove(uri);
+            //        if (fullDoc.meeting.Count == 0) { fullDoc.meeting = null; }
+            //        break;
+            //    case "uniformTitle":
+            //        fullDoc.uniformTitle.Remove(uri);
+            //        if (fullDoc.uniformTitle.Count == 0) { fullDoc.uniformTitle = null; }
+            //        break;
+            //}
             SaveSubjectDoc(fullDoc);
             TempData["Message"] = "ArchivesSpace Resource Removed";
             return RedirectToAction("Subject", new { id });

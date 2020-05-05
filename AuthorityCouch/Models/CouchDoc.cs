@@ -42,6 +42,7 @@ namespace AuthorityCouch.Models
 
         public List<string> creator { get; set; }
         public List<string> source { get; set; }
+        public List<string> archivesSpaceRelations { get; set; }
 
         public List<string> familyNameCreator { get; set; }
         public List<string> familyNameSource { get; set; }
@@ -63,9 +64,7 @@ namespace AuthorityCouch.Models
 
         public bool CanBeDeleted()
         {
-            if (topic == null && geographic == null && familyNameCreator == null && familyNameSource == null && familyNameSubject == null &&
-                corporateNameCreator == null && corporateNameSource == null && corporateNameSubject == null &&
-                personalNameCreator == null && personalNameSource == null && personalNameSubject == null && meeting == null && uniformTitle == null && dcName == null && dcSubject == null)
+            if (creator == null && source == null && archivesSpaceRelations == null && dcName == null && dcSubject == null)
             {
                 return true;
             }

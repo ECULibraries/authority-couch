@@ -67,6 +67,57 @@ namespace AuthorityCouch.Controllers
             //    SaveNameDoc(doc);
             //}
 
+            //var subids = new Personal();
+            //foreach (var id in subids.NewAs)
+            //{
+            //    var doc = GetSubjectDocByUuid(id);
+
+            //    if (doc.topic != null)
+            //    {
+            //        doc.type = "Topic";
+            //        doc.archivesSpaceRelations = doc.topic;
+            //        doc.topic = null;
+            //    }
+            //    else if (doc.geographic != null)
+            //    {
+            //        doc.type = "Geographic";
+            //        doc.archivesSpaceRelations = doc.geographic;
+            //        doc.geographic = null;
+            //    }
+            //    else if (doc.personalNameSubject != null)
+            //    {
+            //        doc.type = "PersonalName";
+            //        doc.archivesSpaceRelations = doc.personalNameSubject;
+            //        doc.personalNameSubject = null;
+            //    }
+            //    else if (doc.familyNameSubject != null)
+            //    {
+            //        doc.type = "FamilyName";
+            //        doc.archivesSpaceRelations = doc.familyNameSubject;
+            //        doc.familyNameSubject = null;
+            //    }
+            //    else if (doc.corporateNameSubject != null)
+            //    {
+            //        doc.type = "CorporateName";
+            //        doc.archivesSpaceRelations = doc.corporateNameSubject;
+            //        doc.corporateNameSubject = null;
+            //    }
+            //    else if (doc.meeting != null)
+            //    {
+            //        doc.type = "Meeting";
+            //        doc.archivesSpaceRelations = doc.meeting;
+            //        doc.meeting = null;
+            //    }
+            //    else if (doc.uniformTitle != null)
+            //    {
+            //        doc.type = "UniformTitle";
+            //        doc.archivesSpaceRelations = doc.uniformTitle;
+            //        doc.uniformTitle = null;
+            //    }
+
+            //    SaveSubjectDoc(doc);
+            //}
+
             return View();
         }
 

@@ -52,8 +52,8 @@ namespace AuthorityCouch.Controllers
             // if zero -- update 
             var fullDoc = GetNameDocByUuid(evm.Doc._id);
             fullDoc.authoritativeLabel = evm.Doc.authoritativeLabel.Trim();
-            fullDoc.externalAuthorityUri = evm.Doc.externalAuthorityUri.Trim();
-            fullDoc.archivesSpaceUri = evm.Doc.archivesSpaceUri.Trim();
+            fullDoc.externalAuthorityUri = evm.Doc.externalAuthorityUri?.Trim();
+            fullDoc.archivesSpaceUri = evm.Doc.archivesSpaceUri?.Trim();
             fullDoc.type = evm.Doc.type;
             // wipe substrings if externalAuthorityUri has value
             if (fullDoc.externalAuthorityUri != null)
@@ -137,8 +137,9 @@ namespace AuthorityCouch.Controllers
             // if zero -- update 
             var fullDoc = GetSubjectDocByUuid(evm.Doc._id);
             fullDoc.authoritativeLabel = evm.Doc.authoritativeLabel.Trim();
-            fullDoc.externalAuthorityUri = evm.Doc.externalAuthorityUri.Trim();
-            fullDoc.archivesSpaceUri = evm.Doc.archivesSpaceUri.Trim();
+            fullDoc.externalAuthorityUri = evm.Doc.externalAuthorityUri?.Trim();
+            fullDoc.archivesSpaceUri = evm.Doc.archivesSpaceUri?.Trim();
+            fullDoc.type = evm.Doc.type;
 
             // wipe substrings if externalAuthorityUri has value
             if (fullDoc.externalAuthorityUri != null)
